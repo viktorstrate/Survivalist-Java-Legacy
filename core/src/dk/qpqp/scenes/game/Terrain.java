@@ -35,6 +35,7 @@ public class Terrain {
         }
 
         AnimatedTiledMapTile animatedTile = new AnimatedTiledMapTile(0.75f, frameTiles);
+        animatedTile.getProperties().put("ground", "false");
 
         TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("mid");
         for(int x = 0; x < layer.getWidth(); x++){
@@ -56,5 +57,9 @@ public class Terrain {
     public void dispose(){
         map.dispose();
         renderer.dispose();
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 }

@@ -14,11 +14,11 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Player extends Entity {
 
     private Texture texture;
-    private static final float SPEED = 4;
+    private static final float SPEED = 200;
 
     public Player(float x, float y, float w, float h, World world) {
         super(x, y, w, h, world);
-        texture = new Texture("images/player.png");
+        texture = new Texture("images/entities/player/naked.png");
     }
 
     @Override
@@ -46,6 +46,6 @@ public class Player extends Entity {
         if(Gdx.input.isKeyPressed(Input.Keys.S)){
             velocity.y -= 1;
         }
-        body.applyForce(velocity.scl(200), new Vector2(0, 0), true);
+        body.applyForce(velocity.scl(SPEED), new Vector2(0, 0), true);
     }
 }

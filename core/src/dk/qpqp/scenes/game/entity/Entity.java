@@ -44,7 +44,6 @@ public abstract class Entity implements GameObject {
     public void update(float dt){
         position.x = body.getPosition().x*Constants.PPM;
         position.y = body.getPosition().y*Constants.PPM;
-
     }
 
     public void render(SpriteBatch sb){
