@@ -3,10 +3,7 @@ package dk.qpqp.scenes.game.objects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.utills.Constants;
 
@@ -29,20 +26,24 @@ public class Stone implements GameObject {
         this.world = world;
 
         // Setup body
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x * SIZE / Constants.PPM, y * SIZE / Constants.PPM);
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(x * SIZE / Constants.PPM, y * SIZE / Constants.PPM);
+        bdef.type = BodyDef.BodyType.StaticBody;
+        body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(SIZE/2/Constants.PPM, SIZE/2/Constants.PPM);
+        shape.setAsBox(SIZE / 2 / Constants.PPM, SIZE / 2 / Constants.PPM);
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = shape;
+        body.createFixture(fdef);
 
-        body = world.createBody(bodyDef);
+        body = world.createBody(bdef);
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.begin();
-        spriteBatch.draw(texture, body.getPosition().x * Constants.PPM, body.getPosition().y * Constants.PPM);
+        spriteBatch.draw(texture, (body.getPosition().x * Constants.PPM) - SIZE / 2, (body.getPosition().y * Constants.PPM) - SIZE / 2);
         spriteBatch.end();
     }
 

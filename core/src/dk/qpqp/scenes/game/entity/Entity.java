@@ -2,10 +2,7 @@ package dk.qpqp.scenes.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.utills.Constants;
 
@@ -28,22 +25,23 @@ public abstract class Entity implements GameObject {
         height = h;
 
         // Setup body
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x / Constants.PPM, y / Constants.PPM);
-        bodyDef.fixedRotation = true;
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(w/2/Constants.PPM, h/2/Constants.PPM);
-
-        body = world.createBody(bodyDef);
+        shape.setAsBox(w / 2 / Constants.PPM, h / 2 / Constants.PPM);
+        FixtureDef fdef = new FixtureDef();
+        fdef.shape = shape;
+        body.createFixture(fdef);
         body.setLinearDamping(20);
 
     }
 
     public void update(float dt){
-        position.x = body.getPosition().x*Constants.PPM;
-        position.y = body.getPosition().y*Constants.PPM;
+        position.x = body.getPosition().x * Constants.PPM - width / 2;
+        position.y = body.getPosition().y * Constants.PPM - height / 2;
     }
 
     public void render(SpriteBatch sb){

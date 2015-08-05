@@ -2,7 +2,6 @@ package dk.qpqp.scenes.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -23,7 +22,6 @@ public class GameScene extends Scene {
 
     private OrthographicCamera gameCamera;
     private OrthographicCamera hudCamera;
-    private OrthographicCamera b2dCamera;
     private SpriteBatch spriteBatch;
 
     private ArrayList<GameObject> gameObjects;
@@ -43,15 +41,14 @@ public class GameScene extends Scene {
         gameCamera.update();
         spriteBatch = new SpriteBatch();
 
-        hudCamera = new OrthographicCamera(Game.WIDTH, Game.HEIGHT);
-        b2dCamera = new OrthographicCamera(Game.WIDTH/Constants.PPM, Game.HEIGHT/Constants.PPM);
+        hudCamera = new OrthographicCamera();
 
         // Box 2D
         world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         gameObjects = new ArrayList<>();
 
-        player = new Player(0, 0, 32, 32, world);
+        player = new Player(50 * 32, 50 * 32, 32, 32, world);
         gameObjects.add(player);
 
         terrain = new Terrain(this);
@@ -71,12 +68,12 @@ public class GameScene extends Scene {
 
         stones.render(spriteBatch);
 
-        b2dr.render(world, b2dCamera.combined);
+        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 
     @Override
     public void update(float dt) {
-        world.step(1 / 60f, 6, 2);
+        world.step(dt, 6, 2);
 
         for(GameObject g: gameObjects){
             g.update(dt);
