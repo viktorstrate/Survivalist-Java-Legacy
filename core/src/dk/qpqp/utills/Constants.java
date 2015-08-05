@@ -6,4 +6,5 @@ package dk.qpqp.utills;
  */
 public final class Constants {
     public static final float PPM = 20;
+    public static final int TILE_SIZE = 32;
 }

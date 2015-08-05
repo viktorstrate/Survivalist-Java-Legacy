@@ -1,5 +1,6 @@
 package dk.qpqp.scenes.game;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -8,8 +9,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.Iterator;
 
 /**
  * Created by viktorstrate on 04/08/2015.
@@ -49,9 +48,12 @@ public class Terrain {
         }
     }
 
-    public void render(){
+    public void render(SpriteBatch spriteBatch) {
         renderer.setView(scene.getGameCamera());
         renderer.render();
+    }
+
+    public void update(float dt) {
     }
 
     public void dispose(){

@@ -16,7 +16,7 @@ public class Player extends Entity {
     private Texture texture;
     private static final float SPEED = 200;
 
-    public Player(float x, float y, float w, float h, World world) {
+    public Player(int x, int y, int w, int h, World world) {
         super(x, y, w, h, world);
         texture = new Texture("images/entities/player/naked.png");
     }
@@ -47,5 +47,10 @@ public class Player extends Entity {
             velocity.y -= 1;
         }
         body.applyForce(velocity.scl(SPEED), new Vector2(0, 0), true);
+    }
+
+    @Override
+    public Texture getTexture() {
+        return texture;
     }
 }

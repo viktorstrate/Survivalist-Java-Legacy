@@ -1,8 +1,10 @@
 package dk.qpqp.scenes.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.utills.Constants;
 
@@ -10,33 +12,26 @@ import dk.qpqp.utills.Constants;
  * Created by viktorstrate on 03/08/2015.
  * A template for an entity
  */
-public abstract class Entity implements GameObject {
+public abstract class Entity extends GameObject {
 
-    protected Body body;
-    protected World world;
-    protected float width, height;
-    protected Vector2 position;
+    public Entity(int x, int y, int w, int h, World world) {
+        super(x, y, w, h, world);
+    }
 
-    public Entity(float x, float y, float w, float h, World world) {
-
-        this.world = world;
-        position = new Vector2(x, y);
-        width = w;
-        height = h;
-
+    @Override
+    protected void setupBody() {
         // Setup body
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x / Constants.PPM, y / Constants.PPM);
+        bdef.position.set(position.x / Constants.PPM, position.y / Constants.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(w / 2 / Constants.PPM, h / 2 / Constants.PPM);
+        shape.setAsBox(width / 2 / Constants.PPM, height / 2 / Constants.PPM);
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
         body.createFixture(fdef);
         body.setLinearDamping(20);
-
     }
 
     public void update(float dt){
@@ -45,25 +40,5 @@ public abstract class Entity implements GameObject {
     }
 
     public void render(SpriteBatch sb){
-    }
-
-    public void dispose(){
-        world.destroyBody(body);
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
     }
 }

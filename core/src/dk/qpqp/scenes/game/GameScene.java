@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import dk.qpqp.Game;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
-import dk.qpqp.scenes.game.objects.Stones;
+import dk.qpqp.scenes.game.objects.ObjectSpawnHandler;
 import dk.qpqp.utills.Constants;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class GameScene extends Scene {
 
     private Player player;
     private Terrain terrain;
-    private Stones stones;
+    private ObjectSpawnHandler objectSpawnHandler;
 
     // Box 2D
     private World world;
@@ -48,25 +48,24 @@ public class GameScene extends Scene {
         b2dr = new Box2DDebugRenderer();
         gameObjects = new ArrayList<>();
 
-        player = new Player(50 * 32, 50 * 32, 32, 32, world);
+        player = new Player(60 * 32, 60 * 32, 32, 32, world);
         gameObjects.add(player);
 
         terrain = new Terrain(this);
-
-        stones = new Stones(this);
+        objectSpawnHandler = new ObjectSpawnHandler(this);
     }
 
     @Override
     public void render() {
         spriteBatch.setProjectionMatrix(gameCamera.combined);
 
-        terrain.render();
+        terrain.render(spriteBatch);
 
         for(GameObject g: gameObjects){
             g.render(spriteBatch);
         }
 
-        stones.render(spriteBatch);
+        objectSpawnHandler.render(spriteBatch);
 
         b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
@@ -78,6 +77,10 @@ public class GameScene extends Scene {
         for(GameObject g: gameObjects){
             g.update(dt);
         }
+
+        terrain.update(dt);
+
+        objectSpawnHandler.update(dt);
 
         // Camera
         gameCamera.position.lerp(new Vector3(player.getPosition().x, player.getPosition().y, 0), 4f*dt);

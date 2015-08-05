@@ -5,17 +5,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import dk.qpqp.scenes.game.GameObject;
 
 /**
- * Created by viktorstrate on 04/08/2015.
- * A stone object in the scene
+ * Created by viktorstrate on 05/08/2015.
+ * A tree object in the scene
  */
-public class Stone extends GameObject {
+public class Tree extends GameObject {
 
     private Texture texture;
 
-    public Stone(int x, int y, World world) {
-        super(x, y, 32, 32, world);
-
-        texture = new Texture("images/objects/stone.png");
+    public Tree(int x, int y, World world) {
+        super(x, y, 64, 64, world);
+        texture = new Texture("images/objects/tree.png");
     }
 
     @Override

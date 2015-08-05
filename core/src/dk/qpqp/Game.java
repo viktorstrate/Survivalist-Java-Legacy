@@ -5,8 +5,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Game extends ApplicationAdapter {
-	public static final float SCALE = 2;
-	public static final int WIDTH = 1080;
+    public static final float SCALE = 2.5f;
+    public static final int WIDTH = 1080;
 	public static final int HEIGHT = 720;
 
 	private SceneManager sceneManager;
@@ -29,7 +29,6 @@ public class Game extends ApplicationAdapter {
     @Override
     public void resize(int width, int height){
         sceneManager.resize(width, height);
-        System.out.println("Game her");
     }
 
 	@Override
