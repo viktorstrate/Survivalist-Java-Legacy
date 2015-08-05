@@ -17,7 +17,7 @@ public class ObjectSpawnHandler {
         generators = new ArrayList<>();
 
         generators.add(new StoneGenerator(gameScene));
-        generators.add(new TreeGenerator(gameScene));
+        generators.add(new TreeGenerator(gameScene, this));
     }
 
     public void render(SpriteBatch spriteBatch) {
@@ -30,5 +30,9 @@ public class ObjectSpawnHandler {
         for (ObjectGenerator g : generators) {
             g.update(dt);
         }
+    }
+
+    public ArrayList<ObjectGenerator> getGenerators() {
+        return generators;
     }
 }

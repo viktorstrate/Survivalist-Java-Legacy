@@ -14,7 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Player extends Entity {
 
     private Texture texture;
-    private static final float SPEED = 200;
+    private static final float SPEED = 100;
 
     public Player(int x, int y, int w, int h, World world) {
         super(x, y, w, h, world);
