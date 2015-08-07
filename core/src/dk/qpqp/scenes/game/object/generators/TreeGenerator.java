@@ -1,16 +1,17 @@
-package dk.qpqp.scenes.game.objects;
+package dk.qpqp.scenes.game.object.generators;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
+import dk.qpqp.scenes.game.object.objects.Tree;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by viktorstrate on 05/08/2015.
- * Randomly generates {@link Tree} objects in the world
+ * Randomly generates {@link Tree} object in the world
  */
 public class TreeGenerator extends ObjectGenerator {
 
@@ -83,7 +84,7 @@ public class TreeGenerator extends ObjectGenerator {
 
             if (!foundProperLocation) continue;
 
-            gameObjects.add(new Tree((int) pos.x, (int) pos.y, gameScene.getWorld()));
+            gameObjects.add(new Tree((int) pos.x, (int) pos.y, gameScene));
             return true;
 
         }

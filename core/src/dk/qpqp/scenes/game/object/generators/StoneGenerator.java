@@ -1,9 +1,13 @@
-package dk.qpqp.scenes.game.objects;
+package dk.qpqp.scenes.game.object.generators;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.Terrain;
+import dk.qpqp.scenes.game.object.objects.Stone;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,7 +15,7 @@ import java.util.Random;
 
 /**
  * Created by viktorstrate on 04/08/2015.
- * Randomly generates {@link Stone} objects in the world
+ * Randomly generates {@link Stone} object in the world
  */
 public class StoneGenerator extends ObjectGenerator {
 
@@ -73,10 +77,38 @@ public class StoneGenerator extends ObjectGenerator {
         }
 
         if(foundProperPlace){
-            gameObjects.add(new Stone(x, y, gameScene.getWorld()));
+            gameObjects.add(new Stone(x, y, gameScene));
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+
+        ArrayList<Stone> stonesToDestroy = new ArrayList<>();
+        for (GameObject g : gameObjects) {
+            Stone stone = (Stone) g;
+            if (g.mouseOver(gameScene.getGameCamera())) {
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                    stone.setHitTime(stone.getHitTime() + dt);
+                }
+
+                if (stone.getHitTime() >= Stone.DESTROY_TIME) {
+                    stonesToDestroy.add(stone);
+                }
+            }
+        }
+
+        for (Stone s : stonesToDestroy)
+            destroyStone(s);
+
+    }
+
+    private void destroyStone(Stone stone) {
+        gameObjects.get(gameObjects.indexOf(stone)).dispose();
+        gameObjects.remove(stone);
     }
 }

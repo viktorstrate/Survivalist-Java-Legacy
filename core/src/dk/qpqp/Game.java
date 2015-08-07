@@ -5,9 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Game extends ApplicationAdapter {
-    public static final float SCALE = 2.5f;
-    //    public static final float SCALE = 1f;
-    public static final int WIDTH = 1080;
+	public static final float SCALE = 2f;
+	//    public static final float SCALE = 1f;
+	public static final int WIDTH = 1080;
 	public static final int HEIGHT = 720;
 
 	private SceneManager sceneManager;

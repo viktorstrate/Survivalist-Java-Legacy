@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.utills.Constants;
 
 /**
@@ -14,8 +14,8 @@ import dk.qpqp.utills.Constants;
  */
 public abstract class Entity extends GameObject {
 
-    public Entity(int x, int y, int w, int h, World world) {
-        super(x, y, w, h, world);
+    public Entity(int x, int y, int w, int h, GameScene gameScene) {
+        super(x, y, w, h, gameScene);
     }
 
     @Override
@@ -24,7 +24,7 @@ public abstract class Entity extends GameObject {
         BodyDef bdef = new BodyDef();
         bdef.position.set(position.x / Constants.PPM, position.y / Constants.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bdef);
+        body = gameScene.getWorld().createBody(bdef);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(width / 2 / Constants.PPM, height / 2 / Constants.PPM);

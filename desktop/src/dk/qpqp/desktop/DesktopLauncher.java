@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = Game.WIDTH;
         config.height = Game.HEIGHT;
+		config.title = "Badass Survival game in 2D";
 		new LwjglApplication(new Game(), config);
 	}
 }

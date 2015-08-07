@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
+import dk.qpqp.scenes.game.GameScene;
 
 /**
  * Created by viktorstrate on 03/08/2015.
@@ -14,10 +14,10 @@ import com.badlogic.gdx.physics.box2d.World;
 public class Player extends Entity {
 
     private Texture texture;
-    private static final float SPEED = 100;
+    private static final float SPEED = 400;
 
-    public Player(int x, int y, int w, int h, World world) {
-        super(x, y, w, h, world);
+    public Player(int x, int y, int w, int h, GameScene gameScene) {
+        super(x, y, w, h, gameScene);
         texture = new Texture("images/entities/player/naked.png");
     }
 

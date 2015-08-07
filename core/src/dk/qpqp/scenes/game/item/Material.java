@@ -1,0 +1,21 @@
+package dk.qpqp.scenes.game.item;
+
+import com.badlogic.gdx.graphics.Texture;
+
+/**
+ * Created by viktorstrate on 06/08/2015.
+ * All the item materials
+ */
+public enum Material {
+    STONE(new Texture("images/items/rock.png"));
+
+    private Texture texture;
+
+    Material(Texture texture) {
+        this.texture = texture;
+    }
+
+    public Texture getTexture() {
+        return texture;
+    }
+}

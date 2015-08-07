@@ -1,4 +1,4 @@
-package dk.qpqp.scenes.game.objects;
+package dk.qpqp.scenes.game.object.generators;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.qpqp.scenes.game.GameScene;

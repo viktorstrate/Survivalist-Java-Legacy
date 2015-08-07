@@ -1,4 +1,4 @@
-package dk.qpqp.scenes.game.objects;
+package dk.qpqp.scenes.game.object.generators;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.qpqp.scenes.game.GameObject;
@@ -37,8 +37,10 @@ public abstract class ObjectGenerator {
         return gameObjects;
     }
 
-    void update(float dt) {
-
+    public void update(float dt) {
+        for (GameObject g : gameObjects) {
+            g.update(dt);
+        }
     }
 
     void dispose() {
