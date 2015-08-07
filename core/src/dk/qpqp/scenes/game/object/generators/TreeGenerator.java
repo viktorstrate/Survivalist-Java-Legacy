@@ -60,26 +60,23 @@ public class TreeGenerator extends ObjectGenerator {
                     }
                 }
 
-                for (ObjectGenerator generator : spawnHandler.getGenerators()) {
+                ObjectGenerator generator = spawnHandler.getTreeGenerator();
 
-                    if (generator instanceof StoneGenerator) {
-                        for (GameObject stones : generator.getGameObjects()) {
+                for (GameObject stones : this.getGameObjects()) {
 
-                            for (int x = -2; x < 2; x++) {
-                                for (int y = -2; y < 2; y++) {
+                    for (int x = -2; x < 2; x++) {
+                        for (int y = -2; y < 2; y++) {
 
-                                    if (stones.getPosition().x == pos.x + x && stones.getPosition().y == pos.y + y) {
-                                        foundProperLocation = false;
-                                        break;
-                                    }
-
-                                }
+                            if (stones.getPosition().x == pos.x + x && stones.getPosition().y == pos.y + y) {
+                                foundProperLocation = false;
+                                break;
                             }
 
                         }
                     }
 
                 }
+
             }
 
             if (!foundProperLocation) continue;

@@ -3,36 +3,36 @@ package dk.qpqp.scenes.game.object.generators;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import dk.qpqp.scenes.game.GameScene;
 
-import java.util.ArrayList;
-
 /**
  * Created by viktorstrate on 05/08/2015.
  * Handles spawning of {@link dk.qpqp.scenes.game.GameObject} like trees and rocks
  */
 public class ObjectSpawnHandler {
 
-    private ArrayList<ObjectGenerator> generators;
+    private StoneGenerator stoneGenerator;
+    private TreeGenerator treeGenerator;
 
     public ObjectSpawnHandler(GameScene gameScene) {
-        generators = new ArrayList<>();
 
-        generators.add(new StoneGenerator(gameScene));
-        generators.add(new TreeGenerator(gameScene, this));
+        stoneGenerator = new StoneGenerator(gameScene);
+        treeGenerator = new TreeGenerator(gameScene, this);
     }
 
     public void render(SpriteBatch spriteBatch) {
-        for (ObjectGenerator g : generators) {
-            g.render(spriteBatch);
-        }
+        stoneGenerator.render(spriteBatch);
+        treeGenerator.render(spriteBatch);
     }
 
     public void update(float dt) {
-        for (ObjectGenerator g : generators) {
-            g.update(dt);
-        }
+        stoneGenerator.update(dt);
+        treeGenerator.update(dt);
     }
 
-    public ArrayList<ObjectGenerator> getGenerators() {
-        return generators;
+    public StoneGenerator getStoneGenerator() {
+        return stoneGenerator;
+    }
+
+    public TreeGenerator getTreeGenerator() {
+        return treeGenerator;
     }
 }

@@ -1,26 +1,32 @@
 package dk.qpqp.scenes.game.object.objects;
 
 import com.badlogic.gdx.graphics.Texture;
-import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.DestroyableGameObject;
 import dk.qpqp.scenes.game.GameScene;
+import dk.qpqp.scenes.game.item.Material;
+import dk.qpqp.scenes.game.item.entities.EntityStone;
+import dk.qpqp.scenes.game.object.generators.StoneGenerator;
+import dk.qpqp.utills.Textures;
 
 /**
  * Created by viktorstrate on 04/08/2015.
  * A stone object in the scene
  */
-public class Stone extends GameObject {
+public class Stone extends DestroyableGameObject {
 
     private Texture texture;
     private GameScene gameScene;
-    public static final float DESTROY_TIME = 0.2f; // time it takes to destroy in sec
-    private float hitTime = 0; // time it has been hit in sec
 
     public Stone(int x, int y, GameScene gameScene) {
         super(x, y, 32, 32, gameScene);
 
         this.gameScene = gameScene;
 
-        texture = new Texture("images/objects/stone.png");
+        texture = Textures.OBJECT_STONE.getTexture();
+
+        for (int i = 0; i < 5; i++) {
+            drops.add(new EntityStone(gameScene, Material.STONE));
+        }
     }
 
     @Override
@@ -33,11 +39,13 @@ public class Stone extends GameObject {
         return texture;
     }
 
-    public float getHitTime() {
-        return hitTime;
-    }
+    @Override
+    public void destroy() {
+        super.destroy();
+        if (gameScene.getObjectSpawnHandler().getStoneGenerator().getGameObjects() != null) {
+            StoneGenerator stoneGenerator = gameScene.getObjectSpawnHandler().getStoneGenerator();
+            stoneGenerator.removeGameObject(this);
+        }
 
-    public void setHitTime(float hitTime) {
-        this.hitTime = hitTime;
     }
 }

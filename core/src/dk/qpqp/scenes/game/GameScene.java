@@ -12,6 +12,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import dk.qpqp.Game;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
+import dk.qpqp.scenes.game.item.ItemEntityHandler;
+import dk.qpqp.scenes.game.listeners.CollisionLister;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
 import dk.qpqp.utills.Constants;
@@ -36,10 +38,13 @@ public class GameScene extends Scene {
     private ObjectSpawnHandler objectSpawnHandler;
     private UIHandler uiHandler;
 
+    private ItemEntityHandler itemEntityHandler;
+
     // Box 2D
     private World world;
     private Box2DDebugRenderer b2dr;
     private ArrayList<Body> bodiesToRemove;
+    private CollisionLister collisionLister;
 
     public GameScene() {
 
@@ -51,6 +56,8 @@ public class GameScene extends Scene {
 
         // Box 2D
         world = new World(new Vector2(0, 0), true);
+        collisionLister = new CollisionLister();
+        world.setContactListener(collisionLister);
         b2dr = new Box2DDebugRenderer();
         bodiesToRemove = new ArrayList<>();
 
@@ -62,6 +69,8 @@ public class GameScene extends Scene {
         objectSpawnHandler = new ObjectSpawnHandler(this);
 
         uiHandler = new UIHandler(this);
+
+        itemEntityHandler = new ItemEntityHandler(this);
     }
 
     @Override
@@ -75,6 +84,8 @@ public class GameScene extends Scene {
         }
 
         objectSpawnHandler.render(spriteBatch);
+
+        itemEntityHandler.render(spriteBatch);
 
         uiHandler.render();
         viewport.apply();
@@ -94,6 +105,8 @@ public class GameScene extends Scene {
             it.remove();
         }
 
+        itemEntityHandler.update(dt);
+
 
         for(GameObject g: gameObjects){
             g.update(dt);
@@ -110,20 +123,6 @@ public class GameScene extends Scene {
 
     @Override
     public void resize(int width, int height){
-
-//        float aspectRatio = (float) width / (float) height;
-//        float aspectRatio2 = (float)height / (float)width;
-//
-//        // This is to maintain the same aspect ratio, using virtual screen-size
-//        if(aspectRatio >= (float) Game.WIDTH / (float) Game.HEIGHT){
-//            gameCamera.setToOrtho(false, Game.HEIGHT * aspectRatio, Game.HEIGHT);
-//
-//        } else {
-//            gameCamera.setToOrtho(false, Game.WIDTH, Game.WIDTH * aspectRatio2);
-//        }
-//
-//        gameCamera.position.set(player.getPosition().x + player.width / 2, player.getPosition().y + player.height / 2, 1);
-//        gameCamera.update();
 
         viewport.update(width, height);
 
@@ -162,5 +161,17 @@ public class GameScene extends Scene {
 
     public Viewport getViewport() {
         return viewport;
+    }
+
+    public CollisionLister getCollisionLister() {
+        return collisionLister;
+    }
+
+    public ItemEntityHandler getItemEntityHandler() {
+        return itemEntityHandler;
+    }
+
+    public ObjectSpawnHandler getObjectSpawnHandler() {
+        return objectSpawnHandler;
     }
 }

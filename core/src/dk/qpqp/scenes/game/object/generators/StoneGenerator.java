@@ -88,24 +88,17 @@ public class StoneGenerator extends ObjectGenerator {
     public void update(float dt) {
         super.update(dt);
 
-        ArrayList<Stone> stonesToDestroy = new ArrayList<>();
         for (GameObject g : gameObjects) {
             Stone stone = (Stone) g;
             if (g.mouseOver(gameScene.getGameCamera())) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     stone.setHitTime(stone.getHitTime() + dt);
                 }
-
-                if (stone.getHitTime() >= Stone.DESTROY_TIME) {
-                    stonesToDestroy.add(stone);
-                }
             }
         }
 
-        for (Stone s : stonesToDestroy)
-            destroyStone(s);
-
     }
+
 
     private void destroyStone(Stone stone) {
         gameObjects.get(gameObjects.indexOf(stone)).dispose();

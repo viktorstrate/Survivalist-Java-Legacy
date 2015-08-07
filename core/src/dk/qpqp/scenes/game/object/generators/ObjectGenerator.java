@@ -15,9 +15,12 @@ public abstract class ObjectGenerator {
     protected ArrayList<GameObject> gameObjects;
     protected GameScene gameScene;
 
+    private ArrayList<GameObject> objectsToRemove;
+
     public ObjectGenerator(GameScene gameScene) {
         gameObjects = new ArrayList<>();
         this.gameScene = gameScene;
+        this.objectsToRemove = new ArrayList<>();
     }
 
     public void render(SpriteBatch spriteBatch) {
@@ -33,7 +36,7 @@ public abstract class ObjectGenerator {
      */
     protected abstract boolean generate();
 
-    ArrayList<GameObject> getGameObjects() {
+    public ArrayList<GameObject> getGameObjects() {
         return gameObjects;
     }
 
@@ -41,6 +44,16 @@ public abstract class ObjectGenerator {
         for (GameObject g : gameObjects) {
             g.update(dt);
         }
+
+        for (GameObject g : objectsToRemove) {
+            if (gameObjects.contains(g))
+                gameObjects.remove(g);
+        }
+
+    }
+
+    public void removeGameObject(GameObject gameObject) {
+        objectsToRemove.add(gameObject);
     }
 
     void dispose() {

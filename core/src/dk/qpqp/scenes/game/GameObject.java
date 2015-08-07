@@ -23,14 +23,15 @@ public abstract class GameObject implements Graphic {
     protected Vector2 position;
 
     public GameObject(int x, int y, int width, int height, GameScene gameScene) {
+        this(width, height, gameScene);
+        this.position = new Vector2(x, y);
+        setupBody();
+    }
 
+    public GameObject(int width, int height, GameScene gameScene) {
         this.width = width;
         this.height = height;
         this.gameScene = gameScene;
-        this.position = new Vector2(x, y);
-
-        setupBody();
-
     }
 
     protected void setupBody() {
@@ -80,10 +81,14 @@ public abstract class GameObject implements Graphic {
         return position;
     }
 
+    public void setPosition(Vector2 position) {
+        this.position = position;
+        if (body == null) setupBody();
+    }
+
     public abstract Texture getTexture();
 
     public void dispose() {
         gameScene.removeBody(body);
-        getTexture().dispose();
     }
 }

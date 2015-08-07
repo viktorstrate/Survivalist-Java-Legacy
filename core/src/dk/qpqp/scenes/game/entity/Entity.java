@@ -18,6 +18,10 @@ public abstract class Entity extends GameObject {
         super(x, y, w, h, gameScene);
     }
 
+    public Entity(int w, int h, GameScene gameScene) {
+        super(w, h, gameScene);
+    }
+
     @Override
     protected void setupBody() {
         // Setup body
@@ -31,7 +35,7 @@ public abstract class Entity extends GameObject {
         FixtureDef fdef = new FixtureDef();
         fdef.shape = shape;
         body.createFixture(fdef);
-        body.setLinearDamping(20);
+        body.setLinearDamping(8);
     }
 
     public void update(float dt){
@@ -40,5 +44,8 @@ public abstract class Entity extends GameObject {
     }
 
     public void render(SpriteBatch sb){
+        sb.begin();
+        sb.draw(getTexture(), getPosition().x, getPosition().y);
+        sb.end();
     }
 }

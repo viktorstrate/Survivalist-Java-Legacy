@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameScene;
+import dk.qpqp.scenes.game.item.EntityItem;
+import dk.qpqp.utills.box2D.Box2DTag;
+import dk.qpqp.utills.box2D.CustomUserData;
 
 /**
  * Created by viktorstrate on 03/08/2015.
@@ -22,11 +25,15 @@ public class Player extends Entity {
     }
 
     @Override
+    protected void setupBody() {
+        super.setupBody();
+        body.setLinearDamping(20);
+        body.setUserData(new CustomUserData(Box2DTag.PLAYER, this));
+    }
+
+    @Override
     public void render(SpriteBatch sb) {
         super.render(sb);
-        sb.begin();
-        sb.draw(texture, position.x, position.y);
-        sb.end();
     }
 
     @Override
@@ -52,5 +59,10 @@ public class Player extends Entity {
     @Override
     public Texture getTexture() {
         return texture;
+    }
+
+    public void pickupItem(EntityItem item) {
+        item.dispose();
+        System.out.println("Picked up item");
     }
 }
