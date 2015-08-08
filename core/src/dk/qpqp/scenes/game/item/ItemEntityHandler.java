@@ -12,11 +12,13 @@ import java.util.ArrayList;
  */
 public class ItemEntityHandler implements Graphic {
     private ArrayList<EntityItem> entities;
+    private ArrayList<EntityItem> entitiesToRemove;
     private GameScene gameScene;
 
     public ItemEntityHandler(GameScene gameScene) {
         this.gameScene = gameScene;
         entities = new ArrayList<>();
+        entitiesToRemove = new ArrayList<>();
     }
 
     @Override
@@ -29,10 +31,21 @@ public class ItemEntityHandler implements Graphic {
     public void update(float dt) {
         for (EntityItem e : entities)
             e.update(dt);
+
+        for (EntityItem e : entitiesToRemove) {
+            if (entities.contains(e)) {
+                entities.remove(e);
+            }
+        }
+        entitiesToRemove.clear();
     }
 
     public ArrayList<EntityItem> getEntities() {
         return entities;
+    }
+
+    public void removeEntity(EntityItem item) {
+        entitiesToRemove.add(item);
     }
 
 }

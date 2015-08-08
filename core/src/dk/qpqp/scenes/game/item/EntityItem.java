@@ -6,7 +6,7 @@ import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Entity;
 import dk.qpqp.scenes.game.entity.Player;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by viktorstrate on 06/08/2015.
@@ -29,6 +29,14 @@ public class EntityItem extends Entity {
     }
 
     @Override
+    protected void setupBody() {
+        super.setupBody();
+        Random random = new Random();
+        Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
+        body.applyForceToCenter(force.scl(600), true);
+    }
+
+    @Override
     public void update(float dt) {
         super.update(dt);
 
@@ -37,10 +45,19 @@ public class EntityItem extends Entity {
 
             if (player.getPosition().dst(position) < 64) {
 
-                Vector2 angle = new Vector2((player.getPosition().x + player.getWidth() / 2) - (getPosition().x + getWidth() / 2),
-                        (player.getPosition().y + player.getHeight() / 2) - (getPosition().y + getHeight() / 2));
+                Vector2 centerPos = new Vector2(getPosition().x + getWidth() / 2, getPosition().y + getHeight() / 2);
+                Vector2 playerCenterPos = new Vector2(player.getPosition().x + player.getWidth() / 2,
+                        player.getPosition().y + player.getHeight() / 2);
 
-                body.setLinearVelocity(angle.scl(0.1f));
+                Vector2 angle = new Vector2(playerCenterPos.x - centerPos.x,
+                        playerCenterPos.y - centerPos.y);
+
+                body.setLinearVelocity(angle.scl(0.2f));
+
+                if (playerCenterPos.dst(centerPos) < 32) {
+                    player.pickupItem(this);
+                }
+
 //                System.out.println(angle.angle());
             }
         }
@@ -70,9 +87,7 @@ public class EntityItem extends Entity {
 
     @Override
     public void dispose() {
+        gameScene.getItemEntityHandler().removeEntity(this);
         super.dispose();
-        ArrayList<EntityItem> entities = gameScene.getItemEntityHandler().getEntities();
-        if (entities.contains(this))
-            entities.remove(this);
     }
 }
