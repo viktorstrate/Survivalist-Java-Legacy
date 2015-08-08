@@ -21,16 +21,22 @@ public abstract class GameObject implements Graphic {
     protected GameScene gameScene;
     protected Vector2 position;
 
+    public GameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
+        this(width, height, gameScene);
+        this.position = new Vector2(x, y);
+        setupBody(collisionWidth, collisionHeight, collisionX, collisionY);
+    }
+
     public GameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
         this(width, height, gameScene);
         this.position = new Vector2(x, y);
-        setupBody(collisionWidth, collisionHeight);
+        setupBody(collisionWidth, collisionHeight, 0, 0);
     }
 
     public GameObject(int x, int y, int width, int height, GameScene gameScene) {
         this(width, height, gameScene);
         this.position = new Vector2(x, y);
-        setupBody(width, height);
+        setupBody(width, height, 0, 0);
     }
 
     public GameObject(int width, int height, GameScene gameScene) {
@@ -39,10 +45,12 @@ public abstract class GameObject implements Graphic {
         this.gameScene = gameScene;
     }
 
-    protected void setupBody(int width, int height) {
+    protected void setupBody(int width, int height, int x, int y) {
         // Setup body
         BodyDef bdef = new BodyDef();
-        bdef.position.set((position.x * Constants.TILE_SIZE + width / 2) / Constants.PPM, (position.y * Constants.TILE_SIZE + height / 2) / Constants.PPM);
+        bdef.position.set(
+                ((position.x * Constants.TILE_SIZE + width / 2) + x) / Constants.PPM,
+                ((position.y * Constants.TILE_SIZE + height / 2) + y) / Constants.PPM);
         bdef.type = BodyDef.BodyType.StaticBody;
 
         PolygonShape shape = new PolygonShape();
@@ -88,7 +96,7 @@ public abstract class GameObject implements Graphic {
 
     public void setPosition(Vector2 position) {
         this.position = position;
-        if (body == null) setupBody(width, height);
+        if (body == null) setupBody(width, height, 0, 0);
     }
 
     public abstract Texture getTexture();

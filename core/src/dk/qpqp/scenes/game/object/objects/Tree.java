@@ -17,7 +17,7 @@ public class Tree extends DestroyableGameObject {
     private GameScene gameScene;
 
     public Tree(int x, int y, GameScene gameScene) {
-        super(x, y, 64, 64, gameScene);
+        super(x, y, 64, 64, gameScene, 20, 30, 20, 0);
         texture = Textures.OBJECT_TREE.getTexture();
 
         this.gameScene = gameScene;

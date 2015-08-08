@@ -27,7 +27,7 @@ public abstract class Entity extends GameObject {
     }
 
     @Override
-    protected void setupBody(int width, int height) {
+    protected void setupBody(int width, int height, int x, int y) {
         // Setup body
         BodyDef bdef = new BodyDef();
         bdef.position.set(position.x / Constants.PPM, position.y / Constants.PPM);

@@ -44,7 +44,7 @@ public class Inventory implements Graphic {
     public void addItem(Material item) {
         for (int i = 0; i < 54; i++) {
             if (items[i].getItem() == null) continue;
-            if (items[i].getItem().getMaterial().equals(item) && items[i].getItem().getMaxStackSize() >= items[i].getItem().getAmount()) {
+            if (items[i].getItem().getMaterial().equals(item) && items[i].getItem().getMaxStackSize() > items[i].getItem().getAmount()) {
                 items[i].getItem().setAmount(items[i].getItem().getAmount() + 1);
                 return;
             }

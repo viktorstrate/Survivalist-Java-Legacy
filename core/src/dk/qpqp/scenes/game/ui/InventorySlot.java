@@ -54,7 +54,7 @@ public class InventorySlot {
         if (item != null) {
             spriteBatch.draw(item.getMaterial().getTexture(), x + (scl * ITEM_SCALE) / 4, y + (scl * ITEM_SCALE) / 4, scl * ITEM_SCALE, scl * ITEM_SCALE);
 
-
+            Constants.FONT_SMALL.draw(spriteBatch, item.getAmount() + "", x + scl * 0.6f, y + scl * 0.3f);
 
         }
 
@@ -62,7 +62,7 @@ public class InventorySlot {
 
     }
 
-    public void renderText(SpriteBatch spriteBatch) {
+    public void renderHoverText(SpriteBatch spriteBatch) {
         if (item != null) {
             if (mouseOver()) {
                 spriteBatch.begin();

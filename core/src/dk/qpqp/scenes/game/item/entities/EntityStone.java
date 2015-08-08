@@ -21,8 +21,8 @@ public class EntityStone extends EntityItem {
     }
 
     @Override
-    protected void setupBody(int width, int height) {
-        super.setupBody(width, height);
+    protected void setupBody(int width, int height, int x, int y) {
+        super.setupBody(width, height, x, y);
         body.setUserData(new CustomUserData(Box2DTag.ITEM, this));
     }
 }

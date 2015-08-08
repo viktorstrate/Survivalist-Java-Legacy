@@ -27,8 +27,8 @@ public class Player extends Entity {
     }
 
     @Override
-    protected void setupBody(int width, int height) {
-        super.setupBody(width, height);
+    protected void setupBody(int width, int height, int x, int y) {
+        super.setupBody(width, height, x, y);
         body.setLinearDamping(20);
         body.setUserData(new CustomUserData(Box2DTag.PLAYER, this));
     }

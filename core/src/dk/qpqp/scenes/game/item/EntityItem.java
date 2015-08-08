@@ -29,8 +29,8 @@ public class EntityItem extends Entity {
     }
 
     @Override
-    protected void setupBody(int width, int height) {
-        super.setupBody(width, height);
+    protected void setupBody(int width, int height, int x, int y) {
+        super.setupBody(width, height, x, y);
         Random random = new Random();
         Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
         body.applyForceToCenter(force.scl(600), true);

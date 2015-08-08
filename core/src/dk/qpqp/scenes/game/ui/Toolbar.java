@@ -27,7 +27,7 @@ public class Toolbar implements Graphic {
             inventory.getItems()[i].render(spriteBatch);
         }
         for (int i = 0; i < 9; i++) {
-            inventory.getItems()[i].renderText(spriteBatch);
+            inventory.getItems()[i].renderHoverText(spriteBatch);
         }
     }
 
