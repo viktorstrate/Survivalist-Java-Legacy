@@ -66,4 +66,8 @@ public class UIHandler extends ApplicationAdapter {
     public float getScale() {
         return scale;
     }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
 }

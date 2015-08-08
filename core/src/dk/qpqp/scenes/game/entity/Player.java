@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.EntityItem;
+import dk.qpqp.scenes.game.ui.Inventory;
 import dk.qpqp.utills.Textures;
 import dk.qpqp.utills.box2D.Box2DTag;
 import dk.qpqp.utills.box2D.CustomUserData;
@@ -64,6 +65,11 @@ public class Player extends Entity {
 
     public void pickupItem(EntityItem item) {
         item.dispose();
+        getInventory().addItem(item.getMaterial());
         System.out.println("Picked up item");
+    }
+
+    public Inventory getInventory() {
+        return gameScene.getUiHandler().getInventory();
     }
 }

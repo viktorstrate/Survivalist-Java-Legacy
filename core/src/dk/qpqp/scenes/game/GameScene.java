@@ -84,9 +84,9 @@ public class GameScene extends Scene {
             g.render(spriteBatch);
         }
 
-        objectSpawnHandler.render(spriteBatch);
-
         itemEntityHandler.render(spriteBatch);
+
+        objectSpawnHandler.render(spriteBatch);
 
         uiHandler.render();
         viewport.apply();
@@ -174,5 +174,9 @@ public class GameScene extends Scene {
 
     public ObjectSpawnHandler getObjectSpawnHandler() {
         return objectSpawnHandler;
+    }
+
+    public UIHandler getUiHandler() {
+        return uiHandler;
     }
 }

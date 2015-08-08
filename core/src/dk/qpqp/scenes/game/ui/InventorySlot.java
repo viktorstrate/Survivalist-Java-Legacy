@@ -39,10 +39,16 @@ public class InventorySlot {
 
     public void render(SpriteBatch spriteBatch, int offsetX, int offsetY) {
         spriteBatch.begin();
-        spriteBatch.draw((selected ? textureSelected : texture),
-                position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetX + MARGIN,
-                position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetY + MARGIN,
-                SIZE * uiHandler.getScale(), SIZE * uiHandler.getScale());
+        float x = position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetX + MARGIN;
+        float y = position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetY + MARGIN;
+        float scl = SIZE * uiHandler.getScale();
+
+        spriteBatch.draw((selected ? textureSelected : texture), x, y, scl, scl);
+
+        if (item != null) {
+            spriteBatch.draw(item.getMaterial().getTexture(), x + (scl / 1.5f) / 4, y + (scl / 1.5f) / 4, scl / 1.5f, scl / 1.5f);
+        }
+
         spriteBatch.end();
     }
 
@@ -60,5 +66,13 @@ public class InventorySlot {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public InventoryItem getItem() {
+        return item;
+    }
+
+    public void setItem(InventoryItem item) {
+        this.item = item;
     }
 }

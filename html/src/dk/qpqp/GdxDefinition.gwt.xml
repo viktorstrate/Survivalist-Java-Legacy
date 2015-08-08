@@ -3,7 +3,10 @@
 <module rename-to="html">
 	<inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
 	<inherits name='com.badlogic.gdx.physics.box2d.box2d-gwt' />
+	<inherits name='com.badlogic.gdx.ai'/>
 	<inherits name='Box2DLights' />
+	<inherits name='libgdx-utils'/>
+	<inherits name='libgdx-utils-box2d'/>
 
 	<inherits name='Game' />
 	<entry-point class='dk.qpqp.client.HtmlLauncher' />
