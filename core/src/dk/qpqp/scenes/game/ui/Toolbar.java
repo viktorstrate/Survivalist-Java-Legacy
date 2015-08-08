@@ -1,7 +1,6 @@
 package dk.qpqp.scenes.game.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dk.qpqp.Game;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.Graphic;
 
@@ -25,8 +24,10 @@ public class Toolbar implements Graphic {
     @Override
     public void render(SpriteBatch spriteBatch) {
         for (int i = 0; i < 9; i++) {
-            inventory.getItems()[i].render(spriteBatch, Math.round(0 - uiHandler.getHudCam().viewportWidth / 2 / Game.SCALE),
-                    Math.round(0 - uiHandler.getHudCam().viewportHeight / 2 / Game.SCALE));
+            inventory.getItems()[i].render(spriteBatch);
+        }
+        for (int i = 0; i < 9; i++) {
+            inventory.getItems()[i].renderText(spriteBatch);
         }
     }
 

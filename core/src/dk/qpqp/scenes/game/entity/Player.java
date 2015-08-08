@@ -66,7 +66,6 @@ public class Player extends Entity {
     public void pickupItem(EntityItem item) {
         item.dispose();
         getInventory().addItem(item.getMaterial());
-        System.out.println("Picked up item");
     }
 
     public Inventory getInventory() {

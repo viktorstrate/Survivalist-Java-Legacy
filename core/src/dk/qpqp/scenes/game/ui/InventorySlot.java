@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.Game;
 import dk.qpqp.scenes.game.item.InventoryItem;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.utills.Constants;
@@ -22,6 +23,8 @@ public class InventorySlot {
     private UIHandler uiHandler;
     public static final int SIZE = 20;
     public static final int MARGIN = 2;
+    // Scale for the item
+    private static final float ITEM_SCALE = 0.75f;
 
     public InventorySlot(int x, int y, UIHandler uiHandler) {
         texture = Textures.INVENTORY_SLOT.getTexture();
@@ -37,19 +40,38 @@ public class InventorySlot {
         item = new InventoryItem(material, amount);
     }
 
-    public void render(SpriteBatch spriteBatch, int offsetX, int offsetY) {
-        spriteBatch.begin();
-        float x = position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetX + MARGIN;
-        float y = position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetY + MARGIN;
+    public void render(SpriteBatch spriteBatch) {
+
+
+        float x = position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + getOffsetX() + MARGIN;
+        float y = position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + getOffsetY() + MARGIN;
         float scl = SIZE * uiHandler.getScale();
+
+        spriteBatch.begin();
 
         spriteBatch.draw((selected ? textureSelected : texture), x, y, scl, scl);
 
         if (item != null) {
-            spriteBatch.draw(item.getMaterial().getTexture(), x + (scl / 1.5f) / 4, y + (scl / 1.5f) / 4, scl / 1.5f, scl / 1.5f);
+            spriteBatch.draw(item.getMaterial().getTexture(), x + (scl * ITEM_SCALE) / 4, y + (scl * ITEM_SCALE) / 4, scl * ITEM_SCALE, scl * ITEM_SCALE);
+
+
+
         }
 
         spriteBatch.end();
+
+    }
+
+    public void renderText(SpriteBatch spriteBatch) {
+        if (item != null) {
+            if (mouseOver()) {
+                spriteBatch.begin();
+                Constants.FONT_SMALL.draw(spriteBatch, item.getMaterial().getName(),
+                        getOffsetX() + Gdx.input.getX() / Game.SCALE + 5,
+                        getOffsetY() + uiHandler.getViewport().getScreenHeight() / Game.SCALE - Gdx.input.getY() / Game.SCALE);
+                spriteBatch.end();
+            }
+        }
     }
 
     public void update(float dt) {
@@ -58,10 +80,14 @@ public class InventorySlot {
 
     public boolean mouseOver() {
 
+        float x = position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + getOffsetX() + MARGIN;
+        float y = position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + getOffsetY() + MARGIN;
+        float scl = SIZE * uiHandler.getScale();
+
         Vector2 mouseWorldPos = uiHandler.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 
-        return mouseWorldPos.x > position.x * Constants.TILE_SIZE && mouseWorldPos.x < position.x * Constants.TILE_SIZE + SIZE &&
-                mouseWorldPos.y > position.y * Constants.TILE_SIZE && mouseWorldPos.y < position.y * Constants.TILE_SIZE + SIZE;
+        return mouseWorldPos.x > x && mouseWorldPos.x < x + scl &&
+                mouseWorldPos.y > y && mouseWorldPos.y < y + scl;
     }
 
     public void setSelected(boolean selected) {
@@ -74,5 +100,13 @@ public class InventorySlot {
 
     public void setItem(InventoryItem item) {
         this.item = item;
+    }
+
+    private int getOffsetX() {
+        return Math.round(0 - uiHandler.getHudCam().viewportWidth / 2 / Game.SCALE);
+    }
+
+    private int getOffsetY() {
+        return Math.round(0 - uiHandler.getHudCam().viewportHeight / 2 / Game.SCALE);
     }
 }

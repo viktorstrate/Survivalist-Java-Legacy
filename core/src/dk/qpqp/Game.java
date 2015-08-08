@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import dk.qpqp.utills.Constants;
 
 public class Game extends ApplicationAdapter {
 	public static final float SCALE = 2f;
@@ -33,6 +34,7 @@ public class Game extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height){
+        Constants.updateFontScale(width, height);
         sceneManager.resize(width, height);
     }
 
