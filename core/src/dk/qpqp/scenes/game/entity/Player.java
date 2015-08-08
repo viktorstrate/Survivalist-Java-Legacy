@@ -1,7 +1,9 @@
 package dk.qpqp.scenes.game.entity;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -24,6 +26,9 @@ public class Player extends Entity {
     public Player(int x, int y, GameScene gameScene) {
         super(x, y, 32, 32, gameScene, 20, 32);
         texture = Textures.ENTITY_PLAYER.getTexture();
+
+        PointLight p = gameScene.getLightHandler().addPointLight(new Color(0.451f, 0.17f, 0f, 1f), 20, getPosition().x, getPosition().y);
+        p.attachToBody(body);
     }
 
     @Override

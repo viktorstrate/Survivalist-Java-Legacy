@@ -7,7 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
  * All the item materials
  */
 public enum Material {
-    STONE(new Texture("images/items/rock.png"), 50, "Stone");
+    STONE(new Texture("images/items/rock.png"), 50, "Stone"),
+    TORCH(new Texture("images/items/torch.png"), 1, "Torch");
 
     private Texture texture;
     private int maxStackSize;

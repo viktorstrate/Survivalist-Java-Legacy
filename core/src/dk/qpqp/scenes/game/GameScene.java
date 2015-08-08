@@ -13,11 +13,11 @@ import dk.qpqp.Game;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.ItemEntityHandler;
+import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.listeners.CollisionLister;
 import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
-import dk.qpqp.utills.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -47,6 +47,8 @@ public class GameScene extends Scene {
     private ArrayList<Body> bodiesToRemove;
     private CollisionLister collisionLister;
 
+    private LightHandler lightHandler;
+
     public GameScene() {
 
         gameCamera = new OrthographicCamera(Game.WIDTH, Game.HEIGHT);
@@ -63,6 +65,8 @@ public class GameScene extends Scene {
         b2dr = new Box2DDebugRenderer();
         bodiesToRemove = new ArrayList<>();
 
+        lightHandler = new LightHandler(this);
+
         gameObjects = new ArrayList<>();
         player = new Player(64 * 32, 64 * 32, this);
         gameObjects.add(player);
@@ -71,6 +75,8 @@ public class GameScene extends Scene {
         objectSpawnHandler = new ObjectSpawnHandler(this);
 
         uiHandler = new UIHandler(this);
+
+        uiHandler.getInventory().addItem(Material.TORCH);
 
         itemEntityHandler = new ItemEntityHandler(this);
     }
@@ -89,10 +95,12 @@ public class GameScene extends Scene {
 
         objectSpawnHandler.render(spriteBatch);
 
+        lightHandler.render(spriteBatch);
+
         uiHandler.render();
         viewport.apply();
 
-        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
+//        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 
     @Override
@@ -109,6 +117,7 @@ public class GameScene extends Scene {
 
         itemEntityHandler.update(dt);
 
+        lightHandler.update(dt);
 
         for(GameObject g: gameObjects){
             g.update(dt);
@@ -179,5 +188,9 @@ public class GameScene extends Scene {
 
     public UIHandler getUiHandler() {
         return uiHandler;
+    }
+
+    public LightHandler getLightHandler() {
+        return lightHandler;
     }
 }
