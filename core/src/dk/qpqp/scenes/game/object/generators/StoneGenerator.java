@@ -90,7 +90,7 @@ public class StoneGenerator extends ObjectGenerator {
 
         for (GameObject g : gameObjects) {
             Stone stone = (Stone) g;
-            if (g.mouseOver(gameScene.getGameCamera())) {
+            if (g.mouseOver()) {
                 if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                     stone.setHitTime(stone.getHitTime() + dt);
                 }

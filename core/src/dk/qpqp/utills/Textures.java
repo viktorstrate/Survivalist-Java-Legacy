@@ -9,7 +9,10 @@ import com.badlogic.gdx.graphics.Texture;
 public enum Textures {
     OBJECT_STONE(new Texture("images/objects/stone.png")), OBJECT_TREE(new Texture("images/objects/tree.png")),
 
-    ENTITY_PLAYER(new Texture("images/entities/player/naked.png"));
+    ENTITY_PLAYER(new Texture("images/entities/player/naked.png")),
+
+    INVENTORY_SLOT(new Texture("images/ui/toolbarBackground.png")),
+    INVENTORY_SLOT_SELECTED(new Texture("images/ui/toolbarBackgroundSelected.png"));
 
     private Texture texture;
 

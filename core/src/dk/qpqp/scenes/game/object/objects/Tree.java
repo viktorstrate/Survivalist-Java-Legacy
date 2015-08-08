@@ -32,7 +32,7 @@ public class Tree extends DestroyableGameObject {
     public void update(float dt) {
         super.update(dt);
 
-        if (mouseOver(gameScene.getGameCamera())) {
+        if (mouseOver()) {
             if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
                 System.out.println("You clicked a tree");
             }

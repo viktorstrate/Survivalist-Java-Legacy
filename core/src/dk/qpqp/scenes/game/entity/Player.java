@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.EntityItem;
+import dk.qpqp.utills.Textures;
 import dk.qpqp.utills.box2D.Box2DTag;
 import dk.qpqp.utills.box2D.CustomUserData;
 
@@ -21,7 +22,7 @@ public class Player extends Entity {
 
     public Player(int x, int y, int w, int h, GameScene gameScene) {
         super(x, y, w, h, gameScene);
-        texture = new Texture("images/entities/player/naked.png");
+        texture = Textures.ENTITY_PLAYER.getTexture();
     }
 
     @Override

@@ -1,7 +1,6 @@
 package dk.qpqp.scenes.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -61,7 +60,7 @@ public abstract class GameObject implements Graphic {
 
     }
 
-    public boolean mouseOver(OrthographicCamera camera) {
+    public boolean mouseOver() {
 
         Vector2 mouseWorldPos = gameScene.getViewport().unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 

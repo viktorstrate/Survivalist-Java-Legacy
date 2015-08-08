@@ -13,33 +13,27 @@ public class Toolbar implements Graphic {
 
     private GameScene gameScene;
     private UIHandler uiHandler;
-    private ToolbarBackground[] toolbars;
     private int selected = 0;
+    private Inventory inventory;
 
-    public Toolbar(GameScene gameScene, UIHandler uiHandler) {
+    public Toolbar(GameScene gameScene, UIHandler uiHandler, Inventory inventory) {
         this.gameScene = gameScene;
         this.uiHandler = uiHandler;
-
-        toolbars = new ToolbarBackground[9];
-
-        for (int i = 0; i < 9; i++) {
-            toolbars[i] = new ToolbarBackground(2 + 30 * i, 2);
-            if (i == selected)
-                toolbars[i].setSelected(true);
-        }
+        this.inventory = inventory;
     }
 
     @Override
     public void render(SpriteBatch spriteBatch) {
         for (int i = 0; i < 9; i++) {
-            toolbars[i].render(spriteBatch, Math.round(0 - uiHandler.getHudCam().viewportWidth / 2 / Game.SCALE), Math.round(0 - uiHandler.getHudCam().viewportHeight / 2 / Game.SCALE));
+            inventory.getItems()[i].render(spriteBatch, Math.round(0 - uiHandler.getHudCam().viewportWidth / 2 / Game.SCALE),
+                    Math.round(0 - uiHandler.getHudCam().viewportHeight / 2 / Game.SCALE));
         }
     }
 
     @Override
     public void update(float dt) {
         for (int i = 0; i < 9; i++) {
-            toolbars[i].update(dt);
+            inventory.getItems()[i].update(dt);
         }
     }
 

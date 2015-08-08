@@ -8,11 +8,9 @@ public class InventoryItem {
 
     private Material material;
     private int amount = 0;
-    private int maxStackSize;
 
     public InventoryItem(Material material) {
         this(material, 1);
-        maxStackSize = 99;
     }
 
     public InventoryItem(Material material, int amount) {
@@ -37,10 +35,6 @@ public class InventoryItem {
     }
 
     public int getMaxStackSize() {
-        return maxStackSize;
-    }
-
-    public void setMaxStackSize(int maxStackSize) {
-        this.maxStackSize = maxStackSize;
+        return material.getMaxStackSize();
     }
 }

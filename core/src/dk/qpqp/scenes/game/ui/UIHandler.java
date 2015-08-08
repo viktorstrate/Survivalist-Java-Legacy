@@ -16,21 +16,22 @@ public class UIHandler extends ApplicationAdapter {
 
     private GameScene gameScene;
     private OrthographicCamera hudCam;
-    private Toolbar toolbar;
     private Viewport viewport;
     private SpriteBatch spriteBatch;
+    private Inventory inventory;
+    private float scale = 2f;
 
     public UIHandler(GameScene gameScene) {
 
         hudCam = new OrthographicCamera(Game.WIDTH, Game.HEIGHT);
-        hudCam.zoom = 1 / Game.SCALE;
+        hudCam.zoom = 1 / scale;
         viewport = new ScreenViewport(hudCam);
 
         spriteBatch = new SpriteBatch();
 
-        this.gameScene = gameScene;
-        toolbar = new Toolbar(gameScene, this);
+        inventory = new Inventory(gameScene, this);
 
+        this.gameScene = gameScene;
 
     }
 
@@ -38,33 +39,31 @@ public class UIHandler extends ApplicationAdapter {
     public void render() {
         viewport.apply();
         spriteBatch.setProjectionMatrix(hudCam.combined);
-        toolbar.render(spriteBatch);
-
+        inventory.render(spriteBatch);
     }
 
     public void update(float dt) {
-        toolbar.update(dt);
+        inventory.update(dt);
     }
 
     @Override
     public void resize(int width, int height) {
-//        float aspectRatio = (float) width / (float) height;
-//        float aspectRatio2 = (float)height / (float)width;
-//
-//        // This is to maintain the same aspect ratio, using virtual screen-size
-//        if(aspectRatio >= (float) Game.WIDTH / (float) Game.HEIGHT){
-//            hudCam.setToOrtho(false, Game.HEIGHT * aspectRatio, Game.HEIGHT);
-//
-//        } else {
-//            hudCam.setToOrtho(false, Game.WIDTH, Game.WIDTH * aspectRatio2);
-//        }
-//
-//
-//        hudCam.update();
         viewport.update(width, height);
+        float size = (width + height) / 2;
+        float gameSize = ((float) Game.WIDTH + (float) Game.HEIGHT) / 2;
+        scale = size / gameSize;
+        System.out.println("scale = " + scale);
     }
 
     public OrthographicCamera getHudCam() {
         return hudCam;
+    }
+
+    public Viewport getViewport() {
+        return viewport;
+    }
+
+    public float getScale() {
+        return scale;
     }
 }
