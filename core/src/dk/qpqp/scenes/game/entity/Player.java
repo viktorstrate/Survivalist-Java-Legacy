@@ -18,16 +18,16 @@ import dk.qpqp.utills.box2D.CustomUserData;
 public class Player extends Entity {
 
     private Texture texture;
-    private static final float SPEED = 400;
+    private static final float SPEED = 150;
 
-    public Player(int x, int y, int w, int h, GameScene gameScene) {
-        super(x, y, w, h, gameScene);
+    public Player(int x, int y, GameScene gameScene) {
+        super(x, y, 32, 32, gameScene, 20, 32);
         texture = Textures.ENTITY_PLAYER.getTexture();
     }
 
     @Override
-    protected void setupBody() {
-        super.setupBody();
+    protected void setupBody(int width, int height) {
+        super.setupBody(width, height);
         body.setLinearDamping(20);
         body.setUserData(new CustomUserData(Box2DTag.PLAYER, this));
     }

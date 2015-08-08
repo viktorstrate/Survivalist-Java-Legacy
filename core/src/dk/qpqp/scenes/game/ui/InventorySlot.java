@@ -39,7 +39,7 @@ public class InventorySlot {
 
     public void render(SpriteBatch spriteBatch, int offsetX, int offsetY) {
         spriteBatch.begin();
-        spriteBatch.draw((selected ? texture : textureSelected),
+        spriteBatch.draw((selected ? textureSelected : texture),
                 position.x * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetX + MARGIN,
                 position.y * (SIZE * uiHandler.getScale() + MARGIN * uiHandler.getScale()) + offsetY + MARGIN,
                 SIZE * uiHandler.getScale(), SIZE * uiHandler.getScale());

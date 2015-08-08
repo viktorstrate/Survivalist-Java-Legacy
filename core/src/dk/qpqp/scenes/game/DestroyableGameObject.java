@@ -18,6 +18,15 @@ public abstract class DestroyableGameObject extends GameObject {
 
     public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene) {
         super(x, y, width, height, gameScene);
+        setup();
+    }
+
+    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
+        super(x, y, width, height, gameScene, collisionWidth, collisionHeight);
+        setup();
+    }
+
+    private void setup() {
         drops = new ArrayList<>();
     }
 

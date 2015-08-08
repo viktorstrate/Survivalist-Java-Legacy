@@ -18,7 +18,7 @@ public class Stone extends DestroyableGameObject {
     private GameScene gameScene;
 
     public Stone(int x, int y, GameScene gameScene) {
-        super(x, y, 32, 32, gameScene);
+        super(x, y, 32, 32, gameScene, 30, 22);
 
         this.gameScene = gameScene;
 

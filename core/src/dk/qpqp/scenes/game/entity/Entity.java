@@ -22,8 +22,12 @@ public abstract class Entity extends GameObject {
         super(w, h, gameScene);
     }
 
+    public Entity(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
+        super(x, y, width, height, gameScene, collisionWidth, collisionHeight);
+    }
+
     @Override
-    protected void setupBody() {
+    protected void setupBody(int width, int height) {
         // Setup body
         BodyDef bdef = new BodyDef();
         bdef.position.set(position.x / Constants.PPM, position.y / Constants.PPM);

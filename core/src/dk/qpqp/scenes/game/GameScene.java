@@ -17,7 +17,6 @@ import dk.qpqp.scenes.game.listeners.CollisionLister;
 import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
-import dk.qpqp.utills.Constants;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,7 +63,7 @@ public class GameScene extends Scene {
         bodiesToRemove = new ArrayList<>();
 
         gameObjects = new ArrayList<>();
-        player = new Player(64 * 32, 64 * 32, 32, 32, this);
+        player = new Player(64 * 32, 64 * 32, this);
         gameObjects.add(player);
 
         terrain = new Terrain(this);
@@ -92,7 +91,7 @@ public class GameScene extends Scene {
         uiHandler.render();
         viewport.apply();
 
-        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
+//        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 
     @Override

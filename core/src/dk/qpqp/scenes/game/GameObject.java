@@ -21,10 +21,16 @@ public abstract class GameObject implements Graphic {
     protected GameScene gameScene;
     protected Vector2 position;
 
+    public GameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
+        this(width, height, gameScene);
+        this.position = new Vector2(x, y);
+        setupBody(collisionWidth, collisionHeight);
+    }
+
     public GameObject(int x, int y, int width, int height, GameScene gameScene) {
         this(width, height, gameScene);
         this.position = new Vector2(x, y);
-        setupBody();
+        setupBody(width, height);
     }
 
     public GameObject(int width, int height, GameScene gameScene) {
@@ -33,7 +39,7 @@ public abstract class GameObject implements Graphic {
         this.gameScene = gameScene;
     }
 
-    protected void setupBody() {
+    protected void setupBody(int width, int height) {
         // Setup body
         BodyDef bdef = new BodyDef();
         bdef.position.set((position.x * Constants.TILE_SIZE + width / 2) / Constants.PPM, (position.y * Constants.TILE_SIZE + height / 2) / Constants.PPM);
@@ -82,7 +88,7 @@ public abstract class GameObject implements Graphic {
 
     public void setPosition(Vector2 position) {
         this.position = position;
-        if (body == null) setupBody();
+        if (body == null) setupBody(width, height);
     }
 
     public abstract Texture getTexture();

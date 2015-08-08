@@ -29,8 +29,8 @@ public class EntityItem extends Entity {
     }
 
     @Override
-    protected void setupBody() {
-        super.setupBody();
+    protected void setupBody(int width, int height) {
+        super.setupBody(width, height);
         Random random = new Random();
         Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
         body.applyForceToCenter(force.scl(600), true);
@@ -54,7 +54,7 @@ public class EntityItem extends Entity {
 
                 body.setLinearVelocity(angle.scl(0.2f));
 
-                if (playerCenterPos.dst(centerPos) < 32) {
+                if (playerCenterPos.dst(centerPos) < 18) {
                     player.pickupItem(this);
                 }
 
