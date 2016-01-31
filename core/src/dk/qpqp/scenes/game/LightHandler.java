@@ -27,7 +27,8 @@ public class LightHandler implements Graphic {
 
     @Override
     public void render(SpriteBatch spriteBatch) {
-        // TODO make this resolution independent
+        rayHandler.useCustomViewport(gameScene.getViewport().getScreenX(), gameScene.getViewport().getScreenY(),
+                gameScene.getViewport().getScreenWidth(), gameScene.getViewport().getScreenHeight());
         rayHandler.setCombinedMatrix(gameScene.getGameCamera().combined.cpy().scl(Constants.PPM));
         rayHandler.render();
     }
