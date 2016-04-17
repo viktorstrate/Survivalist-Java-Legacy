@@ -27,12 +27,13 @@ public class StoneGenerator extends ObjectGenerator {
         this.terrain = gameScene.getTerrain();
 
         for (int i = 0; i < MAX_STONE_COUNT; i++) {
-            generate();
+            gameScene.addGameObject(generate());
         }
     }
 
     @Override
-    public boolean generate() {
+    public Stone generate() {
+
         int width = terrain.getMap().getProperties().get("width", Integer.class);
         int height = terrain.getMap().getProperties().get("height", Integer.class);
 
@@ -77,31 +78,10 @@ public class StoneGenerator extends ObjectGenerator {
         }
 
         if(foundProperPlace){
-            gameObjects.add(new Stone(x, y, gameScene));
-            return true;
+            return new Stone(x, y, gameScene);
         } else {
-            return false;
+            return generate();
         }
     }
 
-    @Override
-    public void update(float dt) {
-        super.update(dt);
-
-        for (GameObject g : gameObjects) {
-            Stone stone = (Stone) g;
-            if (g.mouseOver()) {
-                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-                    stone.setHitTime(stone.getHitTime() + dt);
-                }
-            }
-        }
-
-    }
-
-
-    private void destroyStone(Stone stone) {
-        gameObjects.get(gameObjects.indexOf(stone)).dispose();
-        gameObjects.remove(stone);
-    }
 }

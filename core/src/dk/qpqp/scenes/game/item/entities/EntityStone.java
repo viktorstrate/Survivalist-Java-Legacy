@@ -1,5 +1,6 @@
 package dk.qpqp.scenes.game.item.entities;
 
+import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.EntityItem;
 import dk.qpqp.scenes.game.item.Material;
@@ -13,11 +14,11 @@ import dk.qpqp.utills.box2D.CustomUserData;
 public class EntityStone extends EntityItem {
 
     public EntityStone(int x, int y, GameScene gameScene) {
-        super(x, y, gameScene, Material.STONE);
+        super(x, y, gameScene, GameID.ENTITY_STONE, Material.STONE);
     }
 
     public EntityStone(GameScene gameScene, Material material) {
-        super(gameScene, material);
+        super(gameScene, GameID.ENTITY_STONE, material);
     }
 
     @Override

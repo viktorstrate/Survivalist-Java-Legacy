@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.utills.Constants;
@@ -14,16 +15,16 @@ import dk.qpqp.utills.Constants;
  */
 public abstract class Entity extends GameObject {
 
-    public Entity(int x, int y, int w, int h, GameScene gameScene) {
-        super(x, y, w, h, gameScene);
+    public Entity(int x, int y, int w, int h, GameScene gameScene, GameID id) {
+        super(x, y, w, h, gameScene, id);
     }
 
-    public Entity(int w, int h, GameScene gameScene) {
-        super(w, h, gameScene);
+    public Entity(int w, int h, GameScene gameScene, GameID id) {
+        super(w, h, gameScene, id);
     }
 
-    public Entity(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
-        super(x, y, width, height, gameScene, collisionWidth, collisionHeight);
+    public Entity(int x, int y, int width, int height, GameScene gameScene, GameID id,  int collisionWidth, int collisionHeight) {
+        super(x, y, width, height, gameScene, id, collisionWidth, collisionHeight);
     }
 
     @Override

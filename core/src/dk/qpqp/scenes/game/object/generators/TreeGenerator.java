@@ -15,17 +15,24 @@ import java.util.Random;
  */
 public class TreeGenerator extends ObjectGenerator {
 
-    ArrayList<Vector2> cellPositions;
-    ObjectSpawnHandler spawnHandler;
 
-    public TreeGenerator(GameScene gameScene, ObjectSpawnHandler spawnHandler) {
+    public TreeGenerator(GameScene gameScene) {
         super(gameScene);
 
-        this.spawnHandler = spawnHandler;
+        for (int i = 0; i < 200; i++) {
+            gameScene.addGameObject(generate());
+        }
+
+    }
+
+    @Override
+    public Tree generate() {
+
+        Random random = new Random();
+
+        ArrayList<Vector2> cellPositions = new ArrayList<>();
 
         TiledMapTileLayer layer = (TiledMapTileLayer) gameScene.getTerrain().getMap().getLayers().get("treeSpawnArea");
-
-        cellPositions = new ArrayList<>();
 
         for (int x = 0; x < layer.getWidth(); x++) {
             for (int y = 0; y < layer.getHeight(); y++) {
@@ -33,59 +40,39 @@ public class TreeGenerator extends ObjectGenerator {
             }
         }
 
-        for (int i = 0; i < 200; i++) {
-            if (!generate()) break;
-        }
+        boolean foundProperLocation = true;
+        Vector2 pos = cellPositions.get(random.nextInt(cellPositions.size()));
 
-    }
+        for (GameObject g : gameScene.getGameObjects()) {
 
-    @Override
-    public boolean generate() {
+            for (int x = -2; x < 2; x++) {
+                for (int y = -2; y < 2; y++) {
+                    if (g.getPosition().x == pos.x + x && g.getPosition().y == pos.y + y) {
+                        foundProperLocation = false;
+                        break;
+                    }
+                }
+            }
 
-        Random random = new Random();
-
-        for (int i = 0; i < 20; i++) {
-
-            boolean foundProperLocation = true;
-            Vector2 pos = cellPositions.get(random.nextInt(cellPositions.size()));
-
-            for (GameObject g : gameObjects) {
+            for (GameObject stones : gameScene.getGameObjects()) {
 
                 for (int x = -2; x < 2; x++) {
                     for (int y = -2; y < 2; y++) {
-                        if (g.getPosition().x == pos.x + x && g.getPosition().y == pos.y + y) {
+
+                        if (stones.getPosition().x == pos.x + x && stones.getPosition().y == pos.y + y) {
                             foundProperLocation = false;
                             break;
                         }
+
                     }
-                }
-
-                ObjectGenerator generator = spawnHandler.getTreeGenerator();
-
-                for (GameObject stones : this.getGameObjects()) {
-
-                    for (int x = -2; x < 2; x++) {
-                        for (int y = -2; y < 2; y++) {
-
-                            if (stones.getPosition().x == pos.x + x && stones.getPosition().y == pos.y + y) {
-                                foundProperLocation = false;
-                                break;
-                            }
-
-                        }
-                    }
-
                 }
 
             }
 
-            if (!foundProperLocation) continue;
-
-            gameObjects.add(new Tree((int) pos.x, (int) pos.y, gameScene));
-            return true;
-
         }
 
-        return false;
+        if(foundProperLocation){
+            return new Tree((int) pos.x, (int) pos.y, gameScene);
+        } else return generate();
     }
 }

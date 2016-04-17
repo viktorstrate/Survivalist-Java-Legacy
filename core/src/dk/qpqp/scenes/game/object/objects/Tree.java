@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import dk.qpqp.scenes.game.DestroyableGameObject;
+import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.utills.Textures;
 
@@ -17,7 +18,7 @@ public class Tree extends DestroyableGameObject {
     private GameScene gameScene;
 
     public Tree(int x, int y, GameScene gameScene) {
-        super(x, y, 64, 64, gameScene, 20, 30, 20, 0);
+        super(x, y, 64, 64, gameScene, GameID.TREE, 20, 30, 20, 0);
         texture = Textures.OBJECT_TREE.getTexture();
 
         this.gameScene = gameScene;

@@ -16,18 +16,18 @@ public abstract class DestroyableGameObject extends GameObject {
     protected float hitTime = 0; // time it has been hit in sec
     protected ArrayList<EntityItem> drops;
 
-    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene) {
-        super(x, y, width, height, gameScene);
+    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, GameID id) {
+        super(x, y, width, height, gameScene, id);
         setup();
     }
 
-    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
-        super(x, y, width, height, gameScene, collisionWidth, collisionHeight);
+    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, GameID id,  int collisionWidth, int collisionHeight) {
+        super(x, y, width, height, gameScene, id, collisionWidth, collisionHeight);
         setup();
     }
 
-    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
-        super(x, y, width, height, gameScene, collisionWidth, collisionHeight, collisionX, collisionY);
+    public DestroyableGameObject(int x, int y, int width, int height, GameScene gameScene, GameID id, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
+        super(x, y, width, height, gameScene, id, collisionWidth, collisionHeight, collisionX, collisionY);
         setup();
     }
 
@@ -64,7 +64,7 @@ public abstract class DestroyableGameObject extends GameObject {
     }
 
     public void destroy() {
-        gameScene.removeBody(body);
+        gameScene.removeGameObject(this);
 
         for (EntityItem e : drops) {
             e.setPosition(new Vector2(position.x * Constants.TILE_SIZE, position.y * Constants.TILE_SIZE));

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.EntityItem;
 import dk.qpqp.scenes.game.ui.Inventory;
@@ -24,7 +25,7 @@ public class Player extends Entity {
     private static final float SPEED = 150;
 
     public Player(int x, int y, GameScene gameScene) {
-        super(x, y, 32, 32, gameScene, 20, 32);
+        super(x, y, 32, 32, gameScene, GameID.PLAYER, 20, 32);
         texture = Textures.ENTITY_PLAYER.getTexture();
 
         PointLight p = gameScene.getLightHandler().addPointLight(new Color(0.451f, 0.17f, 0f, 1f), 20, getPosition().x, getPosition().y);

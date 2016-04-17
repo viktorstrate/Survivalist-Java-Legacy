@@ -1,7 +1,11 @@
 package dk.qpqp.scenes.game.object.objects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import dk.qpqp.scenes.game.DestroyableGameObject;
+import dk.qpqp.scenes.game.GameID;
+import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.item.entities.EntityStone;
@@ -18,7 +22,7 @@ public class Stone extends DestroyableGameObject {
     private GameScene gameScene;
 
     public Stone(int x, int y, GameScene gameScene) {
-        super(x, y, 32, 32, gameScene, 30, 22);
+        super(x, y, 32, 32, gameScene, GameID.STONE, 30, 22);
 
         this.gameScene = gameScene;
 
@@ -32,6 +36,13 @@ public class Stone extends DestroyableGameObject {
     @Override
     public void update(float dt) {
         super.update(dt);
+
+        if (this.mouseOver()) {
+            if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                this.setHitTime(this.getHitTime() + dt);
+            }
+        }
+
     }
 
     @Override
@@ -42,10 +53,5 @@ public class Stone extends DestroyableGameObject {
     @Override
     public void destroy() {
         super.destroy();
-        if (gameScene.getObjectSpawnHandler().getStoneGenerator().getGameObjects() != null) {
-            StoneGenerator stoneGenerator = gameScene.getObjectSpawnHandler().getStoneGenerator();
-            stoneGenerator.removeGameObject(this);
-        }
-
     }
 }

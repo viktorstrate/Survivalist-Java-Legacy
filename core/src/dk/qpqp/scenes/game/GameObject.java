@@ -20,29 +20,31 @@ public abstract class GameObject implements Graphic {
     protected Body body;
     protected GameScene gameScene;
     protected Vector2 position;
+    protected GameID id;
 
-    public GameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
-        this(width, height, gameScene);
+    public GameObject(int x, int y, int width, int height, GameScene gameScene, GameID id, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
+        this(width, height, gameScene, id);
         this.position = new Vector2(x, y);
         setupBody(collisionWidth, collisionHeight, collisionX, collisionY);
     }
 
-    public GameObject(int x, int y, int width, int height, GameScene gameScene, int collisionWidth, int collisionHeight) {
-        this(width, height, gameScene);
+    public GameObject(int x, int y, int width, int height, GameScene gameScene, GameID id, int collisionWidth, int collisionHeight) {
+        this(width, height, gameScene, id);
         this.position = new Vector2(x, y);
         setupBody(collisionWidth, collisionHeight, 0, 0);
     }
 
-    public GameObject(int x, int y, int width, int height, GameScene gameScene) {
-        this(width, height, gameScene);
+    public GameObject(int x, int y, int width, int height, GameScene gameScene, GameID id) {
+        this(width, height, gameScene, id);
         this.position = new Vector2(x, y);
         setupBody(width, height, 0, 0);
     }
 
-    public GameObject(int width, int height, GameScene gameScene) {
+    public GameObject(int width, int height, GameScene gameScene, GameID id) {
         this.width = width;
         this.height = height;
         this.gameScene = gameScene;
+        this.id = id;
     }
 
     protected void setupBody(int width, int height, int x, int y) {
@@ -103,5 +105,13 @@ public abstract class GameObject implements Graphic {
 
     public void dispose() {
         gameScene.removeBody(body);
+    }
+
+    public GameID getId() {
+        return id;
+    }
+
+    public void setId(GameID id) {
+        this.id = id;
     }
 }

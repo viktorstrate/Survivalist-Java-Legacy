@@ -2,6 +2,7 @@ package dk.qpqp.scenes.game.item;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Entity;
 import dk.qpqp.scenes.game.entity.Player;
@@ -18,13 +19,13 @@ public class EntityItem extends Entity {
     private boolean pickupable = true;
     private static final int TILE_SIZE = 8;
 
-    public EntityItem(int x, int y, GameScene gameScene, Material material) {
-        super(x, y, TILE_SIZE, TILE_SIZE, gameScene);
+    public EntityItem(int x, int y, GameScene gameScene, GameID id, Material material) {
+        super(x, y, TILE_SIZE, TILE_SIZE, gameScene, id);
         this.material = material;
     }
 
-    public EntityItem(GameScene gameScene, Material material) {
-        super(TILE_SIZE, TILE_SIZE, gameScene);
+    public EntityItem(GameScene gameScene, GameID id, Material material) {
+        super(TILE_SIZE, TILE_SIZE, gameScene, id);
         this.material = material;
     }
 

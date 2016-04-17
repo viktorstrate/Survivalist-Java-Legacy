@@ -1,5 +1,8 @@
 package dk.qpqp.scenes.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dk.qpqp.Game;
+import dk.qpqp.files.GameFile;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.ItemEntityHandler;
@@ -19,6 +23,7 @@ import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -33,6 +38,7 @@ public class GameScene extends Scene {
     private SpriteBatch spriteBatch;
 
     private ArrayList<GameObject> gameObjects;
+    private ArrayList<GameObject> gameObjectsToRemove;
 
     private Player player;
     private Terrain terrain;
@@ -68,6 +74,8 @@ public class GameScene extends Scene {
         lightHandler = new LightHandler(this);
 
         gameObjects = new ArrayList<>();
+        gameObjectsToRemove = new ArrayList<>();
+
         player = new Player(64 * 32, 64 * 32, this);
         gameObjects.add(player);
 
@@ -93,8 +101,6 @@ public class GameScene extends Scene {
 
         itemEntityHandler.render(spriteBatch);
 
-        objectSpawnHandler.render(spriteBatch);
-
         lightHandler.render(spriteBatch);
 
         uiHandler.render();
@@ -115,6 +121,12 @@ public class GameScene extends Scene {
             it.remove();
         }
 
+        for(GameObject g: gameObjectsToRemove){
+            g.dispose();
+            gameObjects.remove(g);
+        }
+        gameObjectsToRemove.clear();
+
         itemEntityHandler.update(dt);
 
         lightHandler.update(dt);
@@ -123,9 +135,20 @@ public class GameScene extends Scene {
             g.update(dt);
         }
 
+        // Temporary save key
+        if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
+            GameFile file = new GameFile(getGameObjects());
+            file.save("survivalist.save");
+        }
+
+        // Temporary load key
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            GameFile file = new GameFile(gameObjects);
+            file.load("survivalist.save", this);
+        }
+
         terrain.update(dt);
 
-        objectSpawnHandler.update(dt);
 
         // Camera
         gameCamera.position.lerp(new Vector3(player.getPosition().x + player.width / 2, player.getPosition().y + player.height / 2, 0), 4f * dt);
@@ -192,5 +215,18 @@ public class GameScene extends Scene {
 
     public LightHandler getLightHandler() {
         return lightHandler;
+    }
+
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
+    }
+
+    public void addGameObject(GameObject gameObjects) {
+        this.gameObjects.add(gameObjects);
+    }
+
+    public void removeGameObject(GameObject gameObject){
+        removeBody(gameObject.body);
+        gameObjectsToRemove.add(gameObject);
     }
 }

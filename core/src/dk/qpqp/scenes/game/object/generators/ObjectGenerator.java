@@ -12,51 +12,17 @@ import java.util.ArrayList;
  */
 public abstract class ObjectGenerator {
 
-    protected ArrayList<GameObject> gameObjects;
     protected GameScene gameScene;
 
-    private ArrayList<GameObject> objectsToRemove;
 
     public ObjectGenerator(GameScene gameScene) {
-        gameObjects = new ArrayList<>();
         this.gameScene = gameScene;
-        this.objectsToRemove = new ArrayList<>();
-    }
-
-    public void render(SpriteBatch spriteBatch) {
-        for (GameObject g : gameObjects) {
-            g.render(spriteBatch);
-        }
     }
 
     /**
      * Generates a {@link GameObject}
      *
-     * @return generate successful
+     * @return the generated {@link GameObject}
      */
-    protected abstract boolean generate();
-
-    public ArrayList<GameObject> getGameObjects() {
-        return gameObjects;
-    }
-
-    public void update(float dt) {
-        for (GameObject g : gameObjects) {
-            g.update(dt);
-        }
-
-        for (GameObject g : objectsToRemove) {
-            if (gameObjects.contains(g))
-                gameObjects.remove(g);
-        }
-
-    }
-
-    public void removeGameObject(GameObject gameObject) {
-        objectsToRemove.add(gameObject);
-    }
-
-    void dispose() {
-        gameObjects = null;
-    }
+    protected abstract GameObject generate();
 }
