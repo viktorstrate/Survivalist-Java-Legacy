@@ -23,13 +23,14 @@ public class Player extends Entity {
 
     private Texture texture;
     private static final float SPEED = 150;
+    private PointLight light;
 
     public Player(int x, int y, GameScene gameScene) {
         super(x, y, 32, 32, gameScene, GameID.PLAYER, 20, 32);
         texture = Textures.ENTITY_PLAYER.getTexture();
 
-        PointLight p = gameScene.getLightHandler().addPointLight(new Color(0.451f, 0.17f, 0f, 1f), 20, getPosition().x, getPosition().y);
-        p.attachToBody(body);
+        light = gameScene.getLightHandler().addPointLight(new Color(0.451f, 0.17f, 0f, 1f), 20, getPosition().x, getPosition().y);
+        light.attachToBody(body);
     }
 
     @Override
@@ -70,11 +71,16 @@ public class Player extends Entity {
     }
 
     public void pickupItem(EntityItem item) {
-        item.dispose();
         getInventory().addItem(item.getMaterial());
     }
 
     public Inventory getInventory() {
         return gameScene.getUiHandler().getInventory();
+    }
+
+    @Override
+    public void dispose() {
+        gameScene.getLightHandler().removeLight(light);
+        super.dispose();
     }
 }

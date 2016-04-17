@@ -68,7 +68,7 @@ public abstract class DestroyableGameObject extends GameObject {
 
         for (EntityItem e : drops) {
             e.setPosition(new Vector2(position.x * Constants.TILE_SIZE, position.y * Constants.TILE_SIZE));
-            gameScene.getItemEntityHandler().getEntities().add(e);
+            gameScene.addGameObject(e);
         }
     }
 }

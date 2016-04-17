@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
+import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.object.objects.Stone;
 import dk.qpqp.scenes.game.object.objects.Tree;
 
@@ -64,8 +65,6 @@ public class GameFile {
         ByteBuffer buffer = ByteBuffer.wrap(data);
         int count = 0;
 
-        ArrayList<GameObject> gameObjects = new ArrayList<>();
-
         while(buffer.remaining()>0){
             short key = buffer.get();
             if(key==(byte)2){
@@ -77,10 +76,12 @@ public class GameFile {
                 if(extra==(byte)0){
 
                     switch (id){
+                        case PLAYER:
+                            gameScene.setPlayer(new Player((int)position.x, (int)position.y, gameScene));
                         case TREE:
-                            gameObjects.add(new Tree((int)position.x, (int)position.y, gameScene));
+                            gameScene.addGameObject(new Tree((int)position.x, (int)position.y, gameScene));
                         case STONE:
-                            gameObjects.add(new Stone((int)position.x, (int)position.y, gameScene));
+                            gameScene.addGameObject(new Stone((int)position.x, (int)position.y, gameScene));
                     }
 
                     System.out.println("\nSuccessfully loaded GameObject "+count);

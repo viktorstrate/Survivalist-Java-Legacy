@@ -57,6 +57,7 @@ public class EntityItem extends Entity {
 
                 if (playerCenterPos.dst(centerPos) < 18) {
                     player.pickupItem(this);
+                    gameScene.removeGameObject(this);
                 }
 
 //                System.out.println(angle.angle());
@@ -88,7 +89,6 @@ public class EntityItem extends Entity {
 
     @Override
     public void dispose() {
-        gameScene.getItemEntityHandler().removeEntity(this);
         super.dispose();
     }
 }

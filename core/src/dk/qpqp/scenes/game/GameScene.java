@@ -2,7 +2,6 @@ package dk.qpqp.scenes.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -16,14 +15,12 @@ import dk.qpqp.Game;
 import dk.qpqp.files.GameFile;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
-import dk.qpqp.scenes.game.item.ItemEntityHandler;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.listeners.CollisionLister;
 import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -39,13 +36,15 @@ public class GameScene extends Scene {
 
     private ArrayList<GameObject> gameObjects;
     private ArrayList<GameObject> gameObjectsToRemove;
+    private ArrayList<GameObject> gameObjectsToAdd;
 
     private Player player;
     private Terrain terrain;
     private ObjectSpawnHandler objectSpawnHandler;
     private UIHandler uiHandler;
 
-    private ItemEntityHandler itemEntityHandler;
+    private boolean loadFile = false;
+
 
     // Box 2D
     private World world;
@@ -75,9 +74,9 @@ public class GameScene extends Scene {
 
         gameObjects = new ArrayList<>();
         gameObjectsToRemove = new ArrayList<>();
+        gameObjectsToAdd = new ArrayList<>();
 
-        player = new Player(64 * 32, 64 * 32, this);
-        gameObjects.add(player);
+        setPlayer(new Player(64 * 32, 64 * 32, this));
 
         terrain = new Terrain(this);
         objectSpawnHandler = new ObjectSpawnHandler(this);
@@ -86,7 +85,6 @@ public class GameScene extends Scene {
 
         uiHandler.getInventory().addItem(Material.TORCH);
 
-        itemEntityHandler = new ItemEntityHandler(this);
     }
 
     @Override
@@ -99,7 +97,6 @@ public class GameScene extends Scene {
             g.render(spriteBatch);
         }
 
-        itemEntityHandler.render(spriteBatch);
 
         lightHandler.render(spriteBatch);
 
@@ -127,7 +124,10 @@ public class GameScene extends Scene {
         }
         gameObjectsToRemove.clear();
 
-        itemEntityHandler.update(dt);
+
+        gameObjects.addAll(gameObjectsToAdd);
+        gameObjectsToAdd.clear();
+
 
         lightHandler.update(dt);
 
@@ -141,10 +141,22 @@ public class GameScene extends Scene {
             file.save("survivalist.save");
         }
 
-        // Temporary load key
-        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+        if(loadFile){
             GameFile file = new GameFile(gameObjects);
             file.load("survivalist.save", this);
+            loadFile = false;
+        }
+
+        // Temporary load key
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            clearGameObjects();
+            loadFile = true;
+        }
+
+
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.C)){
+            clearGameObjects();
         }
 
         terrain.update(dt);
@@ -193,6 +205,14 @@ public class GameScene extends Scene {
         return player;
     }
 
+    public void setPlayer(Player player) {
+        if(gameObjects.contains(this.getPlayer())){
+            removeGameObject(this.getPlayer());
+        }
+        this.player = player;
+        gameObjects.add(player);
+    }
+
     public Viewport getViewport() {
         return viewport;
     }
@@ -201,9 +221,6 @@ public class GameScene extends Scene {
         return collisionLister;
     }
 
-    public ItemEntityHandler getItemEntityHandler() {
-        return itemEntityHandler;
-    }
 
     public ObjectSpawnHandler getObjectSpawnHandler() {
         return objectSpawnHandler;
@@ -222,11 +239,14 @@ public class GameScene extends Scene {
     }
 
     public void addGameObject(GameObject gameObjects) {
-        this.gameObjects.add(gameObjects);
+        this.gameObjectsToAdd.add(gameObjects);
     }
 
     public void removeGameObject(GameObject gameObject){
-        removeBody(gameObject.body);
         gameObjectsToRemove.add(gameObject);
+    }
+
+    public void clearGameObjects(){
+        gameObjectsToRemove.addAll(gameObjects);
     }
 }
