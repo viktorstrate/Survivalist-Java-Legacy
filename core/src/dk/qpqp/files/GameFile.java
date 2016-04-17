@@ -5,6 +5,7 @@ import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Player;
+import dk.qpqp.scenes.game.item.entities.EntityStone;
 import dk.qpqp.scenes.game.object.objects.Stone;
 import dk.qpqp.scenes.game.object.objects.Tree;
 
@@ -78,10 +79,16 @@ public class GameFile {
                     switch (id){
                         case PLAYER:
                             gameScene.setPlayer(new Player((int)position.x, (int)position.y, gameScene));
+                            break;
                         case TREE:
                             gameScene.addGameObject(new Tree((int)position.x, (int)position.y, gameScene));
+                            break;
                         case STONE:
                             gameScene.addGameObject(new Stone((int)position.x, (int)position.y, gameScene));
+                            break;
+                        case ENTITY_STONE:
+                            gameScene.addGameObject(new EntityStone((int)position.x, (int)position.y, gameScene, false));
+                            break;
                     }
 
                     System.out.println("\nSuccessfully loaded GameObject "+count);

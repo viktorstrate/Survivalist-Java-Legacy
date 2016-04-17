@@ -13,8 +13,12 @@ import dk.qpqp.utills.box2D.CustomUserData;
  */
 public class EntityStone extends EntityItem {
 
+    public EntityStone(int x, int y, GameScene gameScene, boolean hasVelocity){
+        super(x, y, gameScene, GameID.ENTITY_STONE, Material.STONE, hasVelocity);
+    }
+
     public EntityStone(int x, int y, GameScene gameScene) {
-        super(x, y, gameScene, GameID.ENTITY_STONE, Material.STONE);
+        this(x, y, gameScene, true);
     }
 
     public EntityStone(GameScene gameScene, Material material) {

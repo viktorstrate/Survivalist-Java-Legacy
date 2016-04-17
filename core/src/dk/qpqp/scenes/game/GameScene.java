@@ -103,6 +103,9 @@ public class GameScene extends Scene {
         uiHandler.render();
         viewport.apply();
 
+
+        Gdx.graphics.setTitle("FPS "+Gdx.graphics.getFramesPerSecond()+" Game Objects "+gameObjects.size());
+
 //        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 

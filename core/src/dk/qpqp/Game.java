@@ -16,7 +16,7 @@ public class Game extends ApplicationAdapter {
 
     FPSLogger fpsLogger;
 
-	@Override
+    @Override
 	public void create () {
 		sceneManager = new SceneManager();
         fpsLogger = new FPSLogger();
@@ -36,6 +36,7 @@ public class Game extends ApplicationAdapter {
     public void resize(int width, int height){
         Constants.updateFontScale(width, height);
         sceneManager.resize(width, height);
+
     }
 
 	@Override

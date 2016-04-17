@@ -19,6 +19,13 @@ public class EntityItem extends Entity {
     private boolean pickupable = true;
     private static final int TILE_SIZE = 8;
 
+    private boolean hasVelocity = true;
+
+    public EntityItem(int x, int y, GameScene gameScene, GameID id, Material material, boolean hasVelocity) {
+        this(x, y, gameScene, id, material);
+        this.hasVelocity = hasVelocity;
+    }
+
     public EntityItem(int x, int y, GameScene gameScene, GameID id, Material material) {
         super(x, y, TILE_SIZE, TILE_SIZE, gameScene, id);
         this.material = material;
@@ -32,9 +39,11 @@ public class EntityItem extends Entity {
     @Override
     protected void setupBody(int width, int height, int x, int y) {
         super.setupBody(width, height, x, y);
-        Random random = new Random();
-        Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
-        body.applyForceToCenter(force.scl(600), true);
+        if(hasVelocity) {
+            Random random = new Random();
+            Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
+            body.applyForceToCenter(force.scl(600), true);
+        }
     }
 
     @Override
