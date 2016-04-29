@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import dk.qpqp.utills.Constants;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+
 public class Game extends ApplicationAdapter {
 	public static final float SCALE = 2f;
 	//    public static final float SCALE = 1f;
@@ -20,6 +24,14 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		sceneManager = new SceneManager();
         fpsLogger = new FPSLogger();
+
+        try {
+            Socket socket = new Socket(InetAddress.getLocalHost(), 5765);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 	@Override

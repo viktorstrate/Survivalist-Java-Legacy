@@ -3,7 +3,7 @@ apply plugin: "java"
 sourceCompatibility = 1.8
 sourceSets.main.java.srcDirs = [ "src/" ]
 
-project.ext.mainClassName = "dk.qpqp.server.ServerLauncher"
+project.ext.mainClassName = "dk.qpqp.launcher.ServerLauncher"
 project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
@@ -29,7 +29,7 @@ dist.dependsOn classes
 
 eclipse {
     project {
-        name = appName + "-desktop"
+        name = appName + "-server"
         linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/core/assets'
     }
 }
