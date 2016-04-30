@@ -1,7 +1,7 @@
 package dk.qpqp.launcher;
 
 
-import dk.qpqp.server.Server;
+import dk.qpqp.net.server.Server;
 
 /**
  * Created by viktorstrate on 18/04/16.

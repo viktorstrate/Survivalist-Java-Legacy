@@ -1,4 +1,4 @@
-package dk.qpqp.server;
+package dk.qpqp.net.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

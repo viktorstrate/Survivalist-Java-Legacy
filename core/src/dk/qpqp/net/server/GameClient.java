@@ -1,12 +1,10 @@
-package dk.qpqp.server;
+package dk.qpqp.net.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
-import java.nio.CharBuffer;
-import java.util.Objects;
 
 /**
  * Created by viktorstrate on 29/04/16.
@@ -59,6 +57,8 @@ public class GameClient implements Runnable {
         output.flush();
         input = new InputStreamReader(getSocket().getInputStream());
 
-        output.write(PacketID.CLIENT_ID+""+getId());
+        System.out.println("Sent id packet");
+        output.write(PacketID.CLIENT_ID.getId()+""+getId());
+        output.flush();
     }
 }
