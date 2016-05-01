@@ -4,14 +4,11 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import dk.qpqp.net.client.NetworkManager;
+import dk.qpqp.net.GameClient;
 import dk.qpqp.utills.Constants;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
-import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class Game extends ApplicationAdapter {
 	public static final float SCALE = 2f;
@@ -20,7 +17,6 @@ public class Game extends ApplicationAdapter {
 	public static final int HEIGHT = 720;
 
 	private SceneManager sceneManager;
-    private NetworkManager networkManager;
 
     FPSLogger fpsLogger;
 
@@ -29,8 +25,11 @@ public class Game extends ApplicationAdapter {
 		sceneManager = new SceneManager();
         fpsLogger = new FPSLogger();
 
-        networkManager = new NetworkManager();
-
+        try {
+            GameClient client = new GameClient(InetAddress.getByName("localhost"), 5765);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
 	@Override
