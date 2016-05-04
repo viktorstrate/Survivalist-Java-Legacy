@@ -1,10 +1,12 @@
-package dk.qpqp.net;
+package dk.qpqp.net.client;
 
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.net.GameConnection;
 import dk.qpqp.net.packets.Packet00Login;
 import dk.qpqp.scenes.game.entity.Player;
 
 /**
+ * An object containing information about the connection for the client
  * Created by viktorstrate on 01/05/16.
  */
 public class GameClientConnection extends GameConnection {

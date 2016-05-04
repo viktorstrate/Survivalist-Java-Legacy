@@ -100,6 +100,8 @@ public class GameServer {
     }
 
     public void addConnection(DatagramPacket packet) {
+        final int x = 32*64;
+        final int y = 32*64;
         Packet02Connect connectPacket = new Packet02Connect(packet.getData());
 
         System.out.printf("%s has connected\n", connectPacket.getUsername());
@@ -113,13 +115,13 @@ public class GameServer {
             conns[i] = connections.get(i);
         }
 
-        Packet03ConnectReply replyPacket = new Packet03ConnectReply(newConnection.getSecret(), newConnection.getId(), 64 * 32, 64 * 32);
+        Packet03ConnectReply replyPacket = new Packet03ConnectReply(newConnection.getSecret(), newConnection.getId(), x, y);
         sendData(replyPacket.getDataToClient(), newConnection);
 
 
         if(conns.length>0) {
             sendData(new Packet01ServerState(conns).getDataToClient(), newConnection);
-            sendDataToAllClients(new Packet00Login(connectPacket.getUsername(), 64 * 32, 64 * 32, newConnection.getId()).getDataToClient());
+            sendDataToAllClients(new Packet00Login(connectPacket.getUsername(), x, y, newConnection.getId()).getDataToClient());
         }
 
         connections.add(newConnection);

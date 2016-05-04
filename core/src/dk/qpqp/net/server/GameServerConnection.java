@@ -1,7 +1,5 @@
 package dk.qpqp.net.server;
 
-import dk.qpqp.net.GameClient;
-import dk.qpqp.net.GameClientConnection;
 import dk.qpqp.net.GameConnection;
 
 import java.net.InetAddress;

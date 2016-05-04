@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.*;
+import com.sun.istack.internal.Nullable;
 import dk.qpqp.utills.Constants;
+import dk.qpqp.utills.box2D.Box2DTag;
+import dk.qpqp.utills.box2D.CustomUserData;
 
 /**
  * Created by viktorstrate on 04/08/2015.
@@ -49,7 +49,7 @@ public abstract class GameObject implements Graphic {
         this.id = id;
     }
 
-    protected void setupBody(int width, int height, int x, int y) {
+    protected void setupBody(int width, int height, int x, int y, @Nullable Filter filter) {
         // Setup body
         BodyDef bdef = new BodyDef();
         bdef.position.set(
@@ -60,10 +60,22 @@ public abstract class GameObject implements Graphic {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((width / 2 - width * 0.05f) / Constants.PPM, (height / 2 - width * 0.05f) / Constants.PPM);
         FixtureDef fdef = new FixtureDef();
+
+        if(filter!=null){
+            fdef.filter.maskBits = filter.maskBits;
+            fdef.filter.categoryBits = filter.categoryBits;
+            fdef.filter.groupIndex = filter.groupIndex;
+        }
+
         fdef.shape = shape;
 
         body = gameScene.getWorld().createBody(bdef);
+        body.setUserData(new CustomUserData(Box2DTag.GAME_OBJECT, this));
         body.createFixture(fdef);
+    }
+
+    protected void setupBody(int width, int height, int x, int y){
+        setupBody(width, height, x, y, Box2DTag.GAME_OBJECT.getContactFilter());
     }
 
     @Override

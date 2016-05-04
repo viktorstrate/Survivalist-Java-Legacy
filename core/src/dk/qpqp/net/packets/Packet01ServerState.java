@@ -1,6 +1,5 @@
 package dk.qpqp.net.packets;
 
-import dk.qpqp.net.GameClientConnection;
 import dk.qpqp.net.GameConnection;
 import dk.qpqp.net.server.GameServerConnection;
 

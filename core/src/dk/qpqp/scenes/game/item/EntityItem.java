@@ -2,11 +2,15 @@ package dk.qpqp.scenes.game.item;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.sun.istack.internal.Nullable;
 import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Entity;
 import dk.qpqp.scenes.game.entity.Player;
+import dk.qpqp.utills.box2D.Box2DTag;
 
+import javax.swing.*;
 import java.util.Random;
 
 /**
@@ -37,13 +41,17 @@ public class EntityItem extends Entity {
     }
 
     @Override
-    protected void setupBody(int width, int height, int x, int y) {
-        super.setupBody(width, height, x, y);
+    protected void setupBody(int width, int height, int x, int y, @Nullable Filter filter) {
+        super.setupBody(width, height, x, y, filter);
         if(hasVelocity) {
             Random random = new Random();
             Vector2 force = new Vector2(random.nextFloat() * 2 - 1, random.nextFloat() * 2 - 1);
             body.applyForceToCenter(force.scl(600), true);
         }
+    }
+
+    protected void setupBody(int width, int height, int x, int y){
+        setupBody(width, height, x, y, Box2DTag.ITEM.getContactFilter());
     }
 
     @Override

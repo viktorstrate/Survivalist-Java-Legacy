@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import dk.qpqp.net.GameClient;
 import dk.qpqp.net.packets.Packet04PlayerMove;
 import dk.qpqp.scenes.game.GameID;
 import dk.qpqp.scenes.game.GameScene;
@@ -45,7 +43,8 @@ public class Player extends Entity {
 
     @Override
     protected void setupBody(int width, int height, int x, int y) {
-        super.setupBody(width, height, x, y);
+        super.setupBody(width, height, x, y, Box2DTag.PLAYER.getContactFilter());
+        //super.setupBody(width, height, x, y);
 
         body.setLinearDamping(20);
         body.setUserData(new CustomUserData(Box2DTag.PLAYER, this));

@@ -1,8 +1,5 @@
 package dk.qpqp.net.packets;
 
-import dk.qpqp.net.GameClient;
-import dk.qpqp.net.server.GameServer;
-
 import java.net.DatagramPacket;
 
 /**

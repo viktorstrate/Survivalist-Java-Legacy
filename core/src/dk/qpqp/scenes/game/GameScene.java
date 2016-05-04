@@ -13,13 +13,12 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dk.qpqp.Game;
 import dk.qpqp.files.GameFile;
-import dk.qpqp.net.GameClient;
-import dk.qpqp.net.GameClientConnection;
+import dk.qpqp.net.client.GameClient;
+import dk.qpqp.net.client.GameClientConnection;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.listeners.CollisionLister;
-import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
 import dk.qpqp.utills.Constants;
@@ -72,9 +71,9 @@ public class GameScene extends Scene {
 
         // Box 2D
         world = new World(new Vector2(0, 0), true);
-        collisionLister = new CollisionLister();
-        world.setContactFilter(new FilterListener());
-        world.setContactListener(collisionLister);
+        //collisionLister = new CollisionLister();
+        //world.setContactFilter(new FilterListener());
+        //world.setContactListener(collisionLister);
         b2dr = new Box2DDebugRenderer();
         bodiesToRemove = new ArrayList<>();
 
@@ -112,8 +111,8 @@ public class GameScene extends Scene {
             g.render(spriteBatch);
         }
 
-
         lightHandler.render(spriteBatch);
+
 
         uiHandler.render();
         viewport.apply();

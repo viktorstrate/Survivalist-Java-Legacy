@@ -5,7 +5,9 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Filter;
 import dk.qpqp.utills.Constants;
+import dk.qpqp.utills.box2D.Box2DTag;
 
 import java.util.ArrayList;
 
@@ -55,6 +57,7 @@ public class LightHandler implements Graphic {
     public PointLight addPointLight(Color color, float distance, float x, float y) {
         PointLight pointLight = new PointLight(rayHandler, 500, color, distance, x / Constants.PPM, y / Constants.PPM);
         pointLight.setSoftnessLength(1f);
+        pointLight.setContactFilter(Box2DTag.LIGHT.getContactFilter());
         lightsToAdd.add(pointLight);
         return pointLight;
     }

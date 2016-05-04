@@ -4,11 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
-import dk.qpqp.net.GameClient;
 import dk.qpqp.utills.Constants;
-
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class Game extends ApplicationAdapter {
 	public static final float SCALE = 2f;

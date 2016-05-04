@@ -1,6 +1,7 @@
-package dk.qpqp.net;
+package dk.qpqp.net.client;
 
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.net.GameConnection;
 import dk.qpqp.net.packets.*;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Player;
@@ -58,7 +59,7 @@ public class GameClient implements Runnable {
                 Packet03ConnectReply replyPacket = new Packet03ConnectReply(packet.getData());
                 secret = replyPacket.getSecret();
                 clientId = replyPacket.getClientId();
-                gameScene.setPlayer(new Player(64 * 32, 64 * 32, gameScene, true));
+                gameScene.setPlayer(new Player(replyPacket.getX(), replyPacket.getY(), gameScene, true));
                 break;
             case LOGIN:
                 System.out.println("LOGIN PACKET");

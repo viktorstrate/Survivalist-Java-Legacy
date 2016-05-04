@@ -1,8 +1,5 @@
 package dk.qpqp.net.packets;
 
-import dk.qpqp.net.GameClient;
-import dk.qpqp.net.server.GameServer;
-
 /**
  * Created by viktorstrate on 01/05/16.
  */
