@@ -1,10 +1,7 @@
-package dk.qpqp.scenes.game.object.generators;
+package dk.qpqp.scenes.game.terrain.generators;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.terrain.objects.GameObject;
 import dk.qpqp.scenes.game.GameScene;
-
-import java.util.ArrayList;
 
 /**
  * Created by viktorstrate on 05/08/2015.

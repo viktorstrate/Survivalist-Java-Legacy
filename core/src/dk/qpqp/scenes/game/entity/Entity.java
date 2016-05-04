@@ -1,14 +1,13 @@
 package dk.qpqp.scenes.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.sun.istack.internal.Nullable;
 import dk.qpqp.scenes.game.GameID;
-import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.terrain.objects.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.utills.Constants;
 

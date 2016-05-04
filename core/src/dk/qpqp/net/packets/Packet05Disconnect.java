@@ -13,18 +13,13 @@ public class Packet05Disconnect extends Packet {
     }
 
     public Packet05Disconnect(byte[] data){
-        super(05);
-        this.secretOrId = new String(data).substring(2).trim();
+        super(data);
+        this.secretOrId = parts[0];
     }
 
     @Override
-    public byte[] getDataToServer() {
-        return ("05"+secretOrId).getBytes();
-    }
-
-    @Override
-    public byte[] getDataToClient() {
-        return getDataToServer();
+    public byte[] getData() {
+        return ("05"+secretOrId+";").getBytes();
     }
 
     public String getSecretOrId() {

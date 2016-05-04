@@ -13,18 +13,13 @@ public class Packet02Connect extends Packet {
     }
 
     public Packet02Connect(byte[] data){
-        super(02);
-        username = new String(data).substring(2).trim();
+        super(data);
+        username = parts[0];
     }
 
     @Override
-    public byte[] getDataToServer() {
-        return ("02"+username).getBytes();
-    }
-
-    @Override
-    public byte[] getDataToClient() {
-        return new byte[0];
+    public byte[] getData() {
+        return ("02"+username+";").getBytes();
     }
 
     public String getUsername() {

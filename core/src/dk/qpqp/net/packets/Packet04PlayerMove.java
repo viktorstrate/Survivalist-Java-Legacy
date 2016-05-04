@@ -16,9 +16,8 @@ public class Packet04PlayerMove extends Packet {
     }
 
     public Packet04PlayerMove(byte[] data){
-        super(04);
+        super(data);
 
-        String[] parts = new String(data).trim().substring(2).split(",");
         idOrSecret = parts[0];
         x = Float.parseFloat(parts[1]);
         y = Float.parseFloat(parts[2]);
@@ -26,13 +25,8 @@ public class Packet04PlayerMove extends Packet {
     }
 
     @Override
-    public byte[] getDataToServer() {
-        return getDataToClient();
-    }
-
-    @Override
-    public byte[] getDataToClient() {
-        return ("04"+idOrSecret+","+x+","+y).getBytes();
+    public byte[] getData() {
+        return ("04"+idOrSecret+","+x+","+y+";").getBytes();
     }
 
     public float getX() {

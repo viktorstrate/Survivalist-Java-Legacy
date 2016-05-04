@@ -12,7 +12,9 @@ public enum Textures {
     ENTITY_PLAYER(new Texture("images/entities/player/naked.png")),
 
     INVENTORY_SLOT(new Texture("images/ui/toolbarBackground.png")),
-    INVENTORY_SLOT_SELECTED(new Texture("images/ui/toolbarBackgroundSelected.png"));
+    INVENTORY_SLOT_SELECTED(new Texture("images/ui/toolbarBackgroundSelected.png")),
+
+    TILE_GRASS(new Texture("images/tiles/grass.png"));
 
     private Texture texture;
 

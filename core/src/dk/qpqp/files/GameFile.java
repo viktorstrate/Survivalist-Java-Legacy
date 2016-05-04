@@ -2,17 +2,16 @@ package dk.qpqp.files;
 
 import com.badlogic.gdx.math.Vector2;
 import dk.qpqp.scenes.game.GameID;
-import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.terrain.objects.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.entities.EntityStone;
-import dk.qpqp.scenes.game.object.objects.Stone;
-import dk.qpqp.scenes.game.object.objects.Tree;
+import dk.qpqp.scenes.game.terrain.objects.Stone;
+import dk.qpqp.scenes.game.terrain.objects.Tree;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;

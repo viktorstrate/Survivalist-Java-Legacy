@@ -19,7 +19,7 @@ import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.listeners.CollisionLister;
-import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
+import dk.qpqp.scenes.game.terrain.objects.GameObject;
 import dk.qpqp.scenes.game.ui.UIHandler;
 import dk.qpqp.utills.Constants;
 
@@ -44,7 +44,6 @@ public class GameScene extends Scene {
 
     private Player player;
     private Terrain terrain;
-    private ObjectSpawnHandler objectSpawnHandler;
     private UIHandler uiHandler;
 
     private boolean loadFile = false;
@@ -86,7 +85,6 @@ public class GameScene extends Scene {
         //setPlayer(new Player(64 * 32, 64 * 32, this, true, id));
 
         terrain = new Terrain(this);
-        objectSpawnHandler = new ObjectSpawnHandler(this);
 
         uiHandler = new UIHandler(this);
 
@@ -113,6 +111,7 @@ public class GameScene extends Scene {
 
         lightHandler.render(spriteBatch);
 
+        //b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
 
         uiHandler.render();
         viewport.apply();
@@ -120,7 +119,6 @@ public class GameScene extends Scene {
 
         Gdx.graphics.setTitle("FPS "+Gdx.graphics.getFramesPerSecond()+" Game Objects "+gameObjects.size());
 
-        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 
     @Override
@@ -181,7 +179,7 @@ public class GameScene extends Scene {
 
         // Camera
         if(player!=null) {
-            gameCamera.position.lerp(new Vector3(player.getPosition().x + player.width / 2, player.getPosition().y + player.height / 2, 0), 4f * dt);
+            gameCamera.position.lerp(new Vector3(player.getPosition().x + player.getWidth() / 2, player.getPosition().y + player.getHeight() / 2, 0), 4f * dt);
             gameCamera.update();
         }
     }
@@ -241,11 +239,6 @@ public class GameScene extends Scene {
         return collisionLister;
     }
 
-
-    public ObjectSpawnHandler getObjectSpawnHandler() {
-        return objectSpawnHandler;
-    }
-
     public UIHandler getUiHandler() {
         return uiHandler;
     }
@@ -256,6 +249,14 @@ public class GameScene extends Scene {
 
     public ArrayList<GameObject> getGameObjects() {
         return gameObjects;
+    }
+
+    public ArrayList<GameObject> getGameObjectsToAdd() {
+        return gameObjectsToAdd;
+    }
+
+    public ArrayList<GameObject> getGameObjectsToRemove() {
+        return gameObjectsToRemove;
     }
 
     public void addGameObject(GameObject gameObjects) {

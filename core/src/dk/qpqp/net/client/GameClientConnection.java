@@ -5,6 +5,11 @@ import dk.qpqp.net.GameConnection;
 import dk.qpqp.net.packets.Packet00Login;
 import dk.qpqp.scenes.game.entity.Player;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+
 /**
  * An object containing information about the connection for the client
  * Created by viktorstrate on 01/05/16.
@@ -13,9 +18,16 @@ public class GameClientConnection extends GameConnection {
     private GameClient gameClient;
     private Player player;
 
+
+
     public GameClientConnection(String username, float x, float y, String id, GameClient gameClient) {
         super(username, x, y, id);
         this.gameClient = gameClient;
+
+
+
+
+
     }
 
     public GameClientConnection(Packet00Login loginPacket, GameClient gameClient) {
@@ -48,4 +60,5 @@ public class GameClientConnection extends GameConnection {
     public void setPlayer(Player player) {
         this.player = player;
     }
+
 }

@@ -1,13 +1,13 @@
 package dk.qpqp.net.server;
 
+import com.sun.istack.internal.Nullable;
 import dk.qpqp.net.packets.*;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.ArrayList;
+
+import static dk.qpqp.net.packets.Packet.PacketType.CONNECT;
 
 /**
  * Created by viktorstrate on 01/05/16.
@@ -15,56 +15,73 @@ import java.util.ArrayList;
 public class GameServer {
 
     private int port;
-    private DatagramSocket socket;
+
+    private ServerTCPListener tcpListener;
+    private ServerUDPListener udpListener;
     private ArrayList<GameServerConnection> connections;
 
     public GameServer(int port) {
         this.port = port;
         connections = new ArrayList<>();
-        try {
-            socket = new DatagramSocket(port);
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
 
-        System.out.println("Server listening on 127.0.0.1:" + socket.getLocalPort());
 
-        running();
+        System.out.println("Server listening on 127.0.0.1:" + port);
+
+        tcpListener = new ServerTCPListener(this);
+        udpListener = new ServerUDPListener(this);
+
     }
 
-    public void running() {
-        while (true) {
-            byte[] data = new byte[1024];
-            DatagramPacket packet = new DatagramPacket(data, data.length);
-            try {
-                socket.receive(packet);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            parseData(packet);
+    public void parseDataUDP(DatagramPacket p){
+        Packet packet = parseData(p.getData());
+
+        switch (packet.getPacketType()) {
+            case PLAYER_MOVE:
+                for(GameServerConnection c: getConnections()){
+                    if(((Packet04PlayerMove)packet).getIdOrSecret().equals(c.getSecret())){
+                        System.out.println("Set port for client");
+                        c.setPortUDP(p.getPort());
+                    }
+                }
+                updatePlayerPosition(new Packet04PlayerMove(packet.getData()));
+                break;
+            default:
+                System.out.println("Couldn't parse data for UDP packet");
         }
     }
 
-    public void parseData(DatagramPacket packet) {
-        byte[] data = packet.getData();
+    public void parseDataTCP(byte[] data, GameServerConnection connection) {
+        Packet packet = parseData(data);
+
+        switch (packet.getPacketType()) {
+            case CONNECT:
+                addConnection(data, connection);
+                break;
+            case DISCONNECT:
+                disconnectPlayer(new Packet05Disconnect(data));
+                break;
+            default:
+                System.out.println("Couldn't parse data for TCP packet");
+        }
+
+    }
+
+    private Packet parseData(byte[] data){
         String message = new String(data).trim();
         System.out.println("Raw Client Packet " + message);
-        Packet.PacketType type = Packet.findPacketType(packet);
+        Packet.PacketType type = Packet.findPacketType(data);
 
         switch (type) {
             case CONNECT:
-                addConnection(packet);
-                break;
+                return new Packet02Connect(data);
             case PLAYER_MOVE:
-                updatePlayerPosition(new Packet04PlayerMove(packet.getData()));
-                break;
+                return new Packet04PlayerMove(data);
             case DISCONNECT:
-                disconnectPlayer(new Packet05Disconnect(packet.getData()));
-                break;
+                return new Packet05Disconnect(data);
             default:
                 System.out.println("Couldn't parse data for packet");
+                return null;
         }
-
     }
 
     public void disconnectPlayer(Packet05Disconnect packet){
@@ -73,7 +90,7 @@ public class GameServer {
             if(c.getSecret().equals(packet.getSecretOrId())){
                 System.out.println(c.getUsername()+" Disconnected");
                 connections.remove(c);
-                sendDataToAllClients(new Packet05Disconnect(c.getId()).getDataToClient());
+                sendDataToAllClientsTCP(new Packet05Disconnect(c.getId()).getData());
                 return;
             }
         }
@@ -81,13 +98,14 @@ public class GameServer {
     }
 
     public void updatePlayerPosition(Packet04PlayerMove packet){
+        System.out.println("Player move: "+packet.getX()+":"+packet.getY());
         GameServerConnection con = findServerConnection(packet.getIdOrSecret());
         con.setX(packet.getX());
         con.setY(packet.getY());
 
         Packet04PlayerMove movePacketToSend = new Packet04PlayerMove(con.getId(), packet.getX(), packet.getY());
 
-        sendDataToAllClientsExcept(movePacketToSend.getDataToClient(), con);
+        sendDataToAllClientsUDPExcept(movePacketToSend.getData(), con);
     }
 
     public GameServerConnection findServerConnection(String secret){
@@ -99,15 +117,16 @@ public class GameServer {
         return null;
     }
 
-    public void addConnection(DatagramPacket packet) {
+    public void addConnection(byte[] data, GameServerConnection connection) {
         final int x = 32*64;
         final int y = 32*64;
-        Packet02Connect connectPacket = new Packet02Connect(packet.getData());
+        Packet02Connect connectPacket = new Packet02Connect(data);
 
         System.out.printf("%s has connected\n", connectPacket.getUsername());
 
-        GameServerConnection newConnection = new GameServerConnection(packet.getAddress(), packet.getPort(),
-                connectPacket.getUsername(), 0, 0);
+        connection.setUsername(connectPacket.getUsername());
+        connection.setX(x);
+        connection.setY(y);
 
         GameServerConnection[] conns = new GameServerConnection[connections.size()];
 
@@ -115,47 +134,65 @@ public class GameServer {
             conns[i] = connections.get(i);
         }
 
-        Packet03ConnectReply replyPacket = new Packet03ConnectReply(newConnection.getSecret(), newConnection.getId(), x, y);
-        sendData(replyPacket.getDataToClient(), newConnection);
+        Packet03ConnectReply replyPacket = new Packet03ConnectReply(connection.getSecret(), connection.getId(), x, y);
+        connection.sendDataTCP(replyPacket.getData());
 
+        if(conns.length>0)
+            connection.sendDataTCP(new Packet01ServerState(conns).getData());
 
-        if(conns.length>0) {
-            sendData(new Packet01ServerState(conns).getDataToClient(), newConnection);
-            sendDataToAllClients(new Packet00Login(connectPacket.getUsername(), x, y, newConnection.getId()).getDataToClient());
-        }
+        sendDataToAllClientsTCPExcept(new Packet00Login(connectPacket.getUsername(), x, y, connection.getId()).getData(), connection);
 
-        connections.add(newConnection);
+        connections.add(connection);
 
 
     }
 
-    public void sendData(byte[] data, GameServerConnection connection) {
-        sendData(data, connection.getIp(), connection.getPort());
-    }
-
-    public void sendData(byte[] data, InetAddress ipAddress, int port) {
-        DatagramPacket packet = new DatagramPacket(data, data.length, ipAddress, port);
+    public void sendDataUDP(byte[] data, GameServerConnection connection){
+        System.out.println("Sending UDP data");
+        DatagramPacket packet = new DatagramPacket(data, data.length, connection.getIp(), connection.getPortUDP());
         try {
-            socket.send(packet);
+            udpListener.getSocket().send(packet);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Send UDP data");
     }
 
-    public void sendDataToAllClients(byte[] data) {
+    public void sendDataToAllClientsUDP(byte[] data) {
         for (GameServerConnection c : connections) {
-            sendData(data, c.getIp(), c.getPort());
+            sendDataUDP(data, c);
         }
     }
 
-    public void sendDataToAllClientsExcept(byte[] data, GameServerConnection exception) {
+    public void sendDataToAllClientsUDPExcept(byte[] data, GameServerConnection exception) {
         for (GameServerConnection c : connections) {
             if(exception.equals(c)) continue;
-            sendData(data, c.getIp(), c.getPort());
+            sendDataUDP(data, c);
+        }
+    }
+
+    public void sendDataToAllClientsTCP(byte[] data){
+        for (GameServerConnection c : connections) {
+            c.sendDataTCP(data);
+        }
+    }
+
+    public void sendDataToAllClientsTCPExcept(byte[] data, GameServerConnection exception){
+        for (GameServerConnection c : connections) {
+            if(exception.equals(c)) continue;
+            c.sendDataTCP(data);
         }
     }
 
     public ArrayList<GameServerConnection> getConnections() {
         return connections;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void dispose(){
+        tcpListener.stop();
     }
 }

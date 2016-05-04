@@ -10,13 +10,12 @@ public class Packet00Login extends Packet {
     private String id;
 
     public Packet00Login(byte[] data) {
-        super(00);
-        String message = new String(data).trim();
-        String[] messages = message.substring(2).split(",");
-        username = messages[0];
-        x = Integer.parseInt(messages[1]);
-        y = Integer.parseInt(messages[2]);
-        id = messages[3];
+        super(data);
+
+        username = parts[0];
+        x = Integer.parseInt(parts[1]);
+        y = Integer.parseInt(parts[2]);
+        id = parts[3];
 
     }
 
@@ -29,13 +28,8 @@ public class Packet00Login extends Packet {
     }
 
     @Override
-    public byte[] getDataToClient() {
-        return ("00"+username+","+x+","+y+","+id).getBytes();
-    }
-
-    @Override
-    public byte[] getDataToServer() {
-        return getDataToClient();
+    public byte[] getData() {
+        return ("00"+username+","+x+","+y+","+id+";").getBytes();
     }
 
     public String getUsername() {

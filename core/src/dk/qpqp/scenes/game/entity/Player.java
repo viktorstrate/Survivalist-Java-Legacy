@@ -78,7 +78,7 @@ public class Player extends Entity {
                 Packet04PlayerMove movePacket = new Packet04PlayerMove(gameScene.getNetworkClient().getSecret(),
                         getPosition().x, getPosition().y);
 
-                gameScene.getNetworkClient().sendData(movePacket.getDataToServer());
+                gameScene.getNetworkClient().sendDataUDP(movePacket.getData());
 
                 lastMovePacketTime = System.currentTimeMillis();
             }

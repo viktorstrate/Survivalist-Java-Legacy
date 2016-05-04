@@ -9,6 +9,5 @@ import dk.qpqp.net.server.GameServer;
 public class ServerLauncher {
     public static void main(String[] args) {
         new GameServer(5765);
-        System.out.println("Start launcher here");
     }
 }

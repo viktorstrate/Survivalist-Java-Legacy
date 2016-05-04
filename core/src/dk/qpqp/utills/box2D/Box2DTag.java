@@ -10,7 +10,7 @@ public enum Box2DTag {
     ITEM((short)0x4, (short)0,(short)0xFF),
     GAME_OBJECT((short)0x8, (short)0,(short)0xFF),
     PLAYER((short)0x2, (short)0,(short)(0xFF^ITEM.getCategoryBits())),
-    LIGHT((short)0x1, (short)0,(short)(GAME_OBJECT.getCategoryBits()|PLAYER.getCategoryBits()));
+    LIGHT((short)0x1, (short)0,(short)(GAME_OBJECT.getCategoryBits()));
 
     short categoryBits, groupIndex, maskBits;
 

@@ -20,8 +20,8 @@ public class Packet01ServerState extends Packet {
     }
 
     public Packet01ServerState(byte[] data){
-        super(01);
-        String[] parts = new String(data).trim().substring(2).split(",");
+        super(data);
+
         ArrayList<GameConnection> list = new ArrayList<>();
         for(int i = 0; i < parts.length; i+=4){
             list.add(new GameConnection(parts[i], Float.parseFloat(parts[i+1]), Float.parseFloat(parts[i+2]), parts[+3]));
@@ -31,7 +31,7 @@ public class Packet01ServerState extends Packet {
     }
 
     @Override
-    public byte[] getDataToClient() {
+    public byte[] getData() {
 
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
@@ -41,12 +41,11 @@ public class Packet01ServerState extends Packet {
             buffer.put((c.getUsername()+","+c.getX()+","+c.getY()+","+c.getId()+",").getBytes());
         }
 
-        return Arrays.copyOfRange(buffer.array(), 0, buffer.position());
-    }
+        buffer.position(buffer.position()-1);
 
-    @Override
-    public byte[] getDataToServer() {
-        return new byte[0];
+        buffer.put((byte) ';');
+
+        return Arrays.copyOfRange(buffer.array(), 0, buffer.position());
     }
 
     public GameConnection[] getConnections() {

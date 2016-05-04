@@ -1,4 +1,4 @@
-package dk.qpqp.scenes.game;
+package dk.qpqp.scenes.game.terrain.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.sun.istack.internal.Nullable;
+import dk.qpqp.scenes.game.GameID;
+import dk.qpqp.scenes.game.GameScene;
+import dk.qpqp.scenes.game.Graphic;
 import dk.qpqp.utills.Constants;
 import dk.qpqp.utills.box2D.Box2DTag;
 import dk.qpqp.utills.box2D.CustomUserData;

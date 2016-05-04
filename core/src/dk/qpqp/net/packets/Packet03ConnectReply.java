@@ -20,9 +20,8 @@ public class Packet03ConnectReply extends Packet {
 
 
     public Packet03ConnectReply(byte[] data){
-        super(03);
+        super(data);
 
-        String[] parts = new String(data).trim().substring(2).split(",");
         clientId = parts[0];
         secret = parts[1];
         x = Integer.parseInt(parts[2]);
@@ -31,13 +30,8 @@ public class Packet03ConnectReply extends Packet {
     }
 
     @Override
-    public byte[] getDataToServer() {
-        return new byte[0];
-    }
-
-    @Override
-    public byte[] getDataToClient() {
-        return ("03"+clientId+","+secret+","+x+","+y).getBytes();
+    public byte[] getData() {
+        return ("03"+clientId+","+secret+","+x+","+y+";").getBytes();
     }
 
     public String getSecret() {

@@ -1,15 +1,12 @@
-package dk.qpqp.scenes.game.object.objects;
+package dk.qpqp.scenes.game.terrain.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import dk.qpqp.scenes.game.DestroyableGameObject;
 import dk.qpqp.scenes.game.GameID;
-import dk.qpqp.scenes.game.GameObject;
 import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.Material;
 import dk.qpqp.scenes.game.item.entities.EntityStone;
-import dk.qpqp.scenes.game.object.generators.StoneGenerator;
 import dk.qpqp.utills.Textures;
 
 /**

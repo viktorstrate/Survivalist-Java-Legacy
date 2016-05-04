@@ -1,10 +1,10 @@
-package dk.qpqp.scenes.game.object.generators;
+package dk.qpqp.scenes.game.terrain.generators;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import dk.qpqp.scenes.game.GameObject;
+import dk.qpqp.scenes.game.terrain.objects.GameObject;
 import dk.qpqp.scenes.game.GameScene;
-import dk.qpqp.scenes.game.object.objects.Tree;
+import dk.qpqp.scenes.game.terrain.objects.Tree;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,16 +19,16 @@ public class TreeGenerator extends ObjectGenerator {
     public TreeGenerator(GameScene gameScene) {
         super(gameScene);
 
-        for (int i = 0; i < 200; i++) {
+        /*for (int i = 0; i < 200; i++) {
             gameScene.addGameObject(generate());
-        }
+        }*/
 
     }
 
     @Override
     public Tree generate() {
 
-        Random random = new Random();
+        /*Random random = new Random();
 
         ArrayList<Vector2> cellPositions = new ArrayList<>();
 
@@ -74,5 +74,8 @@ public class TreeGenerator extends ObjectGenerator {
         if(foundProperLocation){
             return new Tree((int) pos.x, (int) pos.y, gameScene);
         } else return generate();
+        */
+
+        return null;
     }
 }

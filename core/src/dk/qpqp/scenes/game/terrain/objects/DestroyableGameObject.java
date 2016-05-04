@@ -1,6 +1,8 @@
-package dk.qpqp.scenes.game;
+package dk.qpqp.scenes.game.terrain.objects;
 
 import com.badlogic.gdx.math.Vector2;
+import dk.qpqp.scenes.game.GameID;
+import dk.qpqp.scenes.game.GameScene;
 import dk.qpqp.scenes.game.item.EntityItem;
 import dk.qpqp.utills.Constants;
 
