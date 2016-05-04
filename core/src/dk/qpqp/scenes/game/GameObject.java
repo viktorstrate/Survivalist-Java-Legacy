@@ -21,6 +21,8 @@ public abstract class GameObject implements Graphic {
     protected GameScene gameScene;
     protected Vector2 position;
     protected GameID id;
+    protected Vector2 velocity;
+    private Vector2 futurePosition = null;
 
     public GameObject(int x, int y, int width, int height, GameScene gameScene, GameID id, int collisionWidth, int collisionHeight, int collisionX, int collisionY) {
         this(width, height, gameScene, id);
@@ -73,7 +75,17 @@ public abstract class GameObject implements Graphic {
 
     @Override
     public void update(float dt) {
+        velocity = new Vector2(0,0);
 
+        // Set Position from future position
+        if(futurePosition!=null) {
+            this.position = futurePosition;
+            if (body == null) {
+                setupBody(width, height, 0, 0);
+            }
+            this.body.setTransform(futurePosition.scl(1 / Constants.PPM), body.getAngle());
+            futurePosition = null;
+        }
     }
 
     public boolean mouseOver() {
@@ -97,8 +109,9 @@ public abstract class GameObject implements Graphic {
     }
 
     public void setPosition(Vector2 position) {
-        this.position = position;
-        if (body == null) setupBody(width, height, 0, 0);
+
+        futurePosition = position;
+
     }
 
     public abstract Texture getTexture();

@@ -24,12 +24,7 @@ public class Game extends ApplicationAdapter {
 	public void create () {
 		sceneManager = new SceneManager();
         fpsLogger = new FPSLogger();
-
-        try {
-            GameClient client = new GameClient(InetAddress.getByName("localhost"), 5765);
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        
     }
 
 	@Override

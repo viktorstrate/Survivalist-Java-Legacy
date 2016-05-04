@@ -1,6 +1,7 @@
 package dk.qpqp.scenes.game.entity;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -14,6 +15,7 @@ import dk.qpqp.utills.Constants;
  * A template for an entity
  */
 public abstract class Entity extends GameObject {
+
 
     public Entity(int x, int y, int w, int h, GameScene gameScene, GameID id) {
         super(x, y, w, h, gameScene, id);
@@ -44,6 +46,7 @@ public abstract class Entity extends GameObject {
     }
 
     public void update(float dt){
+        super.update(dt);
         position.x = body.getPosition().x * Constants.PPM - width / 2;
         position.y = body.getPosition().y * Constants.PPM - height / 2;
     }

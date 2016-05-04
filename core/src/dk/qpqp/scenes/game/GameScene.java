@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import dk.qpqp.Game;
 import dk.qpqp.files.GameFile;
+import dk.qpqp.net.GameClient;
+import dk.qpqp.net.GameClientConnection;
 import dk.qpqp.scenes.Scene;
 import dk.qpqp.scenes.game.entity.Player;
 import dk.qpqp.scenes.game.item.Material;
@@ -20,7 +22,10 @@ import dk.qpqp.scenes.game.listeners.CollisionLister;
 import dk.qpqp.scenes.game.listeners.FilterListener;
 import dk.qpqp.scenes.game.object.generators.ObjectSpawnHandler;
 import dk.qpqp.scenes.game.ui.UIHandler;
+import dk.qpqp.utills.Constants;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,6 +57,9 @@ public class GameScene extends Scene {
     private ArrayList<Body> bodiesToRemove;
     private CollisionLister collisionLister;
 
+    // Network
+    GameClient networkClient;
+
     private LightHandler lightHandler;
 
     public GameScene() {
@@ -76,7 +84,7 @@ public class GameScene extends Scene {
         gameObjectsToRemove = new ArrayList<>();
         gameObjectsToAdd = new ArrayList<>();
 
-        setPlayer(new Player(64 * 32, 64 * 32, this));
+        //setPlayer(new Player(64 * 32, 64 * 32, this, true, id));
 
         terrain = new Terrain(this);
         objectSpawnHandler = new ObjectSpawnHandler(this);
@@ -84,6 +92,13 @@ public class GameScene extends Scene {
         uiHandler = new UIHandler(this);
 
         uiHandler.getInventory().addItem(Material.TORCH);
+
+        // Connect to the server
+        try {
+            networkClient = new GameClient(InetAddress.getByName("localhost"), 5765, this);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -106,7 +121,7 @@ public class GameScene extends Scene {
 
         Gdx.graphics.setTitle("FPS "+Gdx.graphics.getFramesPerSecond()+" Game Objects "+gameObjects.size());
 
-//        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
+        b2dr.render(world, gameCamera.combined.cpy().scale(Constants.PPM, Constants.PPM, 1));
     }
 
     @Override
@@ -166,8 +181,10 @@ public class GameScene extends Scene {
 
 
         // Camera
-        gameCamera.position.lerp(new Vector3(player.getPosition().x + player.width / 2, player.getPosition().y + player.height / 2, 0), 4f * dt);
-        gameCamera.update();
+        if(player!=null) {
+            gameCamera.position.lerp(new Vector3(player.getPosition().x + player.width / 2, player.getPosition().y + player.height / 2, 0), 4f * dt);
+            gameCamera.update();
+        }
     }
 
     @Override
@@ -180,6 +197,7 @@ public class GameScene extends Scene {
 
     @Override
     public void dispose() {
+        networkClient.disconnect();
         world.dispose();
         terrain.dispose();
     }
@@ -213,7 +231,7 @@ public class GameScene extends Scene {
             removeGameObject(this.getPlayer());
         }
         this.player = player;
-        gameObjects.add(player);
+        addGameObject(player);
     }
 
     public Viewport getViewport() {
@@ -251,5 +269,27 @@ public class GameScene extends Scene {
 
     public void clearGameObjects(){
         gameObjectsToRemove.addAll(gameObjects);
+    }
+
+    public Player addNetworkPlayer(GameClientConnection connection){
+        System.out.println("Adding network player object");
+        Player player = new Player((int)connection.getX(), (int)connection.getY(), this, false);
+        addGameObject(player);
+        return player;
+    }
+
+    public void moveNetworkPlayer(Player player, Vector2 position){
+        for(GameObject g: getGameObjects()){
+            if(g.equals(player)){
+                System.out.println("Updating network player position");
+                Player gamePlayer = (Player) g;
+                gamePlayer.setPosition(position);
+                break;
+            }
+        }
+    }
+
+    public GameClient getNetworkClient() {
+        return networkClient;
     }
 }

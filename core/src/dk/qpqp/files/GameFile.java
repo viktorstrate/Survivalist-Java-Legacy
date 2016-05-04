@@ -78,7 +78,7 @@ public class GameFile {
 
                     switch (id){
                         case PLAYER:
-                            gameScene.setPlayer(new Player((int)position.x, (int)position.y, gameScene));
+                            gameScene.setPlayer(new Player((int)position.x, (int)position.y, gameScene, true));
                             break;
                         case TREE:
                             gameScene.addGameObject(new Tree((int)position.x, (int)position.y, gameScene));

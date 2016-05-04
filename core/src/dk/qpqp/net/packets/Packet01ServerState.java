@@ -1,6 +1,8 @@
 package dk.qpqp.net.packets;
 
 import dk.qpqp.net.GameClientConnection;
+import dk.qpqp.net.GameConnection;
+import dk.qpqp.net.server.GameServerConnection;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ import java.util.Arrays;
  */
 public class Packet01ServerState extends Packet {
 
-    GameClientConnection[] connections;
+    GameConnection[] connections;
 
-    public Packet01ServerState(GameClientConnection[] connections) {
+    public Packet01ServerState(GameServerConnection[] connections) {
         super(01);
         this.connections = connections;
     }
@@ -21,24 +23,34 @@ public class Packet01ServerState extends Packet {
     public Packet01ServerState(byte[] data){
         super(01);
         String[] parts = new String(data).trim().substring(2).split(",");
-        ArrayList<GameClientConnection> list = new ArrayList<>();
-        for(int i = 0; i < parts.length; i+=3){
-            list.add(new GameClientConnection(parts[i], Integer.parseInt(parts[i+1]), Integer.parseInt(parts[i+2])));
+        ArrayList<GameConnection> list = new ArrayList<>();
+        for(int i = 0; i < parts.length; i+=4){
+            list.add(new GameConnection(parts[i], Float.parseFloat(parts[i+1]), Float.parseFloat(parts[i+2]), parts[+3]));
         }
-        connections = (GameClientConnection[]) list.toArray();
+        connections = new GameConnection[list.size()];
+        connections = list.toArray(connections);
     }
 
     @Override
-    public byte[] getData() {
+    public byte[] getDataToClient() {
 
         ByteBuffer buffer = ByteBuffer.allocate(1024);
 
         buffer.put("01".getBytes());
 
-        for(GameClientConnection c: connections){
-            buffer.put((c.getUsername()+","+c.getX()+","+c.getY()).getBytes());
+        for(GameConnection c: connections){
+            buffer.put((c.getUsername()+","+c.getX()+","+c.getY()+","+c.getId()+",").getBytes());
         }
 
         return Arrays.copyOfRange(buffer.array(), 0, buffer.position());
+    }
+
+    @Override
+    public byte[] getDataToServer() {
+        return new byte[0];
+    }
+
+    public GameConnection[] getConnections() {
+        return connections;
     }
 }
